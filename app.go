@@ -11,6 +11,8 @@ import (
 	"github.com/google/go-github/v48/github"
 	"github.com/shurcooL/githubv4"
 	"github.com/spf13/pflag"
+
+	"github.com/airconduct/go-probot/web"
 )
 
 func NewGithubAPP() App[GithubClient] {
@@ -18,6 +20,8 @@ func NewGithubAPP() App[GithubClient] {
 		handlers:       make(map[string]Handler),
 		clients:        make(map[int64]*github.Client),
 		graphqlClients: make(map[int64]*githubv4.Client),
+		serveMux:       http.NewServeMux(),
+		metrics:        new(eventMetrics),
 	}
 }
 
@@ -36,6 +40,9 @@ type githubApp struct {
 	graphqlURL     string
 	uploadURL      string
 	serverOpts     ServerOptions
+	serveMux       *http.ServeMux
+
+	metrics *eventMetrics
 
 	dataMutex  sync.RWMutex
 	hmacToken  []byte
@@ -82,6 +89,7 @@ func (app *githubApp) On(events ...WebhookEvent) handlerLoader {
 				return fmt.Errorf("event type %s already exists", key)
 			}
 			app.handlers[key] = h
+			app.metrics.add(key, event.Type())
 		}
 		return nil
 	})
@@ -92,15 +100,19 @@ func (app *githubApp) Run(ctx context.Context) error {
 		return err
 	}
 
-	mux := http.NewServeMux()
 	if app.serverOpts.Path == "" {
 		app.serverOpts.Path = "/"
 	}
-	mux.HandleFunc(app.serverOpts.Path, app.handle)
-	server := &http.Server{Addr: fmt.Sprintf("%s:%d", app.serverOpts.Address, app.serverOpts.Port), Handler: mux}
+	app.serveMux.HandleFunc(app.serverOpts.Path, app.handle)
+	web.RegisterHandler(app.serveMux, app.metrics)
+	server := &http.Server{Addr: fmt.Sprintf("%s:%d", app.serverOpts.Address, app.serverOpts.Port), Handler: app.serveMux}
 	server.RegisterOnShutdown(app.shutdown)
 	app.logger.Info("Kuilei hook is serving", "addr", server.Addr)
 	return server.ListenAndServe()
+}
+
+func (app *githubApp) ServeMux() *http.ServeMux {
+	return app.serveMux
 }
 
 func (app *githubApp) shutdown() {}
@@ -151,6 +163,9 @@ func (app *githubApp) handle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	app.logger.Info("Handle event", "event", event)
+	defer func() {
+		app.metrics.inc(handlerKey, event)
+	}()
 
 	switch event {
 	case "branch_protection_rule":

@@ -1,6 +1,7 @@
 package web_test
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 
@@ -8,6 +9,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/airconduct/go-probot/web"
+	"github.com/airconduct/go-probot/web/backend"
 )
 
 var _ = Describe("Web", func() {
@@ -17,7 +19,7 @@ var _ = Describe("Web", func() {
 	})
 	It("Handler should be registered", func() {
 		mux := http.NewServeMux()
-		web.RegisterHandler(mux)
+		web.RegisterHandler(mux, &fakeEventSource{})
 		server := httptest.NewServer(mux)
 
 		resp, err := http.Get(server.URL)
@@ -37,3 +39,11 @@ var _ = Describe("Web", func() {
 		Expect(resp.StatusCode).Should(Equal(200))
 	})
 })
+
+type fakeEventSource struct{}
+
+var _ backend.EventSource = &fakeEventSource{}
+
+func (es *fakeEventSource) ListEvent(ctx context.Context, opts backend.ListOptions) (backend.EventList, error) {
+	return backend.EventList{}, nil
+}

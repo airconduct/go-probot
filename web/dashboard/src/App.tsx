@@ -4,16 +4,16 @@ import './App.css'
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-import {  Menu, Card, Collapse, Space  } from "antd";
+import {  Menu  } from "antd";
 import {
-  DashboardOutlined, PullRequestOutlined, InfoCircleOutlined,
+  DashboardOutlined,
   CopyrightOutlined
 } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 
-const { Panel } = Collapse;
 import Welcome from './Welcome'
 import ErrorPage from './error-page'
+import Dashboard from './Dashboard'
 
 export default function App() {
   return <div id='app'>
@@ -55,27 +55,6 @@ function About() {
   return <div>
     <h1>About</h1>
     <p>Do you like this project? Give us a start on <a target={"_blank"} href='https://github.com/airconduct/go-probot'>Github</a>!</p>
-  </div>
-}
-
-function Dashboard() {
-  const onChange = (key: string | string[]) => {
-    console.log(key);
-  };
-  return <div>
-    <h1>Event Listener</h1>
-    <Collapse onChange={onChange} accordion>
-      <Panel key="2" header={
-        <Space><InfoCircleOutlined /><div>issue</div></Space>
-      }>
-        FOO
-      </Panel>
-      <Panel key="1" header={
-        <Space><PullRequestOutlined /><div>pulls</div></Space>
-      }>
-        BAR
-      </Panel>
-    </Collapse>
   </div>
 }
 
