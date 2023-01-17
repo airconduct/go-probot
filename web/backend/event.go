@@ -48,7 +48,7 @@ type EventSource interface {
 }
 
 type EventList struct {
-	Items []Event
+	Items []Event `json:"items"`
 }
 
 type Event struct {
