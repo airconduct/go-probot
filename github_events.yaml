@@ -1,0 +1,168 @@
+Prefix: githubEvent
+Events:
+- Type: BranchProtectionRule
+  Actions:
+  - deleted
+  - created
+  - edited
+- Type: CheckRun
+  Actions:
+  - completed
+  - created
+  - requested_action
+  - rerequested
+- Type: CheckSuite
+  Actions:
+  - completed
+  - requested
+  - rerequested
+- Type: CodeScanningAlert
+  Actions:
+  - appeared_in_branch
+  - closed_by_user
+  - created
+  - fixed
+  - reopened
+  - reopened_by_user
+- Type: CommitComment
+  Actions:
+  - created
+- Type: Create
+- Type: Delete
+- Type: DeployKey
+  Actions:
+  - created
+  - deleted
+- Type: DeploymentStatus
+  Actions:
+  - created
+- Type: Deployment
+  Actions:
+  - created
+- Type: Discussion
+  Actions:
+  - answered
+  - category_changed
+  - created
+  - deleted
+  - edited
+  - labeled
+  - locked
+  - pinned
+  - transferred
+  - unanswered
+  - unlabeled
+  - unlocked
+  - unpinned
+- Type: Fork
+- Type: GitHubAppAuthorization
+- Type: Gollum
+- Type: InstallationRepositories
+  Actions:
+  - added
+  - removed
+- Type: Installation
+  Actions:
+  - created
+  - deleted
+  - new_permissions_accepted
+  - suspend
+  - unsuspend
+- Type: IssueComment
+  Actions:
+  - created
+  - deleted
+  - edited
+- Type: Issues
+  Actions:
+  - assigned
+  - closed
+  - deleted
+  - demilestoned
+  - edited
+  - labeled
+  - locked
+  - milestoned
+  - opened
+  - pinned
+  - reopened
+  - transferred
+  - unassigned
+  - unlabeled
+  - unlocked
+  - unpinned
+- Type: Label
+  Actions:
+  - created
+  - deleted
+  - edited
+- Type: MarketplacePurchase
+  Actions:
+  - cancelled
+  - changed
+  - pending_change
+  - pending_change_cancelled
+  - purchased
+- Type: Member
+  Actions:
+  - added
+  - edited
+  - removed
+- Type: Membership
+  Actions:
+  - added
+  - removed
+- Type: MergeGroup
+- Type: Meta
+  Actions:
+  - deleted
+- Type: PullRequestReviewComment
+  Actions:
+  - created
+  - deleted
+  - edited
+- Type: PullRequestReviewThread
+  Actions:
+  - resolved
+  - unresolved
+- Type: PullRequestReview
+  Actions:
+  - dismissed
+  - edited
+  - submitted
+- Type: PullRequest
+  Actions:
+  - assigned
+  - auto_merge_disabled
+  - auto_merge_enabled
+  - closed
+  - converted_to_draft
+  - demilestoned
+  - dequeued
+  - edited
+  - labeled
+  - locked
+  - milestoned
+  - opened
+  - ready_for_review
+  - reopened
+  - review_request_removed
+  - review_requested
+  - synchronize
+  - unassigned
+  - unlabeled
+  - unlocked
+- Type: Push
+- Type: Status
+- Type: WorkflowDispatch
+- Type: WorkflowJob
+  Actions:
+  - completed
+  - in_progress
+  - queued
+  - waiting
+- Type: WorkflowRun
+  Actions:
+  - completed
+  - in_progress
+  - requested
