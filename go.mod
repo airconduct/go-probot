@@ -12,7 +12,7 @@ require (
 	github.com/google/go-github/v48 v48.2.0
 	github.com/h2non/gock v1.2.0
 	github.com/onsi/ginkgo/v2 v2.7.1
-	github.com/onsi/gomega v1.25.0
+	github.com/onsi/gomega v1.26.0
 	github.com/shurcooL/githubv4 v0.0.0-20221229060216-a8d4a561cc93
 	github.com/spf13/pflag v1.0.5
 	go.uber.org/zap v1.24.0
