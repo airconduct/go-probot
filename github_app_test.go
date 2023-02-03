@@ -59,7 +59,7 @@ func createGitHubApp() probot.App[probot.GitHubClient] {
 		"--github.private-key-file=examples/github/testdata/tls.key",
 		"--github.appid=1",
 		"--address=127.0.0.1",
-		"--port=7771",
+		"--port=7772",
 		"--path=/hook",
 	})
 
