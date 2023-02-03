@@ -15,9 +15,6 @@ type githubEvent struct {
 	// CheckSuite is webhook event `check_suite`.
 	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#check_suite
 	CheckSuite githubEventCheckSuiteAllInOne
-	// CodeScanningAlert is webhook event `code_scanning_alert`.
-	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#code_scanning_alert
-	CodeScanningAlert githubEventCodeScanningAlertAllInOne
 	// CommitComment is webhook event `commit_comment`.
 	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#commit_comment
 	CommitComment githubEventCommitCommentAllInOne
@@ -78,6 +75,36 @@ type githubEvent struct {
 	// Meta is webhook event `meta`.
 	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#meta
 	Meta githubEventMetaAllInOne
+	// Milestone is webhook event `milestone`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#milestone
+	Milestone githubEventMilestoneAllInOne
+	// OrgBlock is webhook event `org_block`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#org_block
+	OrgBlock githubEventOrgBlockAllInOne
+	// Organization is webhook event `organization`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#organization
+	Organization githubEventOrganizationAllInOne
+	// Package is webhook event `package`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#package
+	Package githubEventPackageAllInOne
+	// PageBuild is webhook event `page_build`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#page_build
+	PageBuild githubEventPageBuildAllInOne
+	// Ping is webhook event `ping`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#ping
+	Ping githubEventPingAllInOne
+	// ProjectCard is webhook event `project_card`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#project_card
+	ProjectCard githubEventProjectCardAllInOne
+	// Project is webhook event `project`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#project
+	Project githubEventProjectAllInOne
+	// ProjectColumn is webhook event `project_column`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#project_column
+	ProjectColumn githubEventProjectColumnAllInOne
+	// Public is webhook event `public`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#public
+	Public githubEventPublicAllInOne
 	// PullRequestReviewComment is webhook event `pull_request_review_comment`.
 	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#pull_request_review_comment
 	PullRequestReviewComment githubEventPullRequestReviewCommentAllInOne
@@ -93,6 +120,33 @@ type githubEvent struct {
 	// Push is webhook event `push`.
 	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push
 	Push githubEventPushAllInOne
+	// Release is webhook event `release`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#release
+	Release githubEventReleaseAllInOne
+	// Repository is webhook event `repository`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository
+	Repository githubEventRepositoryAllInOne
+	// RepositoryDispatch is webhook event `repository_dispatch`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_dispatch
+	RepositoryDispatch githubEventRepositoryDispatchAllInOne
+	// RepositoryVulnerabilityAlert is webhook event `repository_vulnerability_alert`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#repository_vulnerability_alert
+	RepositoryVulnerabilityAlert githubEventRepositoryVulnerabilityAlertAllInOne
+	// SecretScanningAlert is webhook event `secret_scanning_alert`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#secret_scanning_alert
+	SecretScanningAlert githubEventSecretScanningAlertAllInOne
+	// Star is webhook event `star`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#star
+	Star githubEventStarAllInOne
+	// TeamAdd is webhook event `team_add`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#team_add
+	TeamAdd githubEventTeamAddAllInOne
+	// Team is webhook event `team`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#team
+	Team githubEventTeamAllInOne
+	// Watch is webhook event `watch`.
+	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#watch
+	Watch githubEventWatchAllInOne
 	// Status is webhook event `status`.
 	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#status
 	Status githubEventStatusAllInOne
@@ -119,12 +173,12 @@ type githubEventBranchProtectionRuleAllInOne struct {
 	Edited githubEventBranchProtectionRuleEdited
 }
 
-// BranchProtectionRuleContext is the context type for BranchProtectionRule event handler to process
-type BranchProtectionRuleContext = ProbotContext[GithubClient, github.BranchProtectionRuleEvent]
+// GitHubBranchProtectionRuleContext is the context type for BranchProtectionRule event handler to process
+type GitHubBranchProtectionRuleContext = ProbotContext[GitHubClient, github.BranchProtectionRuleEvent]
 
 // Handler returns event handler function to process context
-func (githubEventBranchProtectionRuleAllInOne) Handler(fn func(ctx BranchProtectionRuleContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.BranchProtectionRuleEvent](fn)
+func (githubEventBranchProtectionRuleAllInOne) Handler(fn func(ctx GitHubBranchProtectionRuleContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.BranchProtectionRuleEvent](fn)
 }
 
 // githubEventBranchProtectionRule is the base event type of BranchProtectionRule
@@ -174,12 +228,12 @@ type githubEventCheckRunAllInOne struct {
 	Rerequested githubEventCheckRunRerequested
 }
 
-// CheckRunContext is the context type for CheckRun event handler to process
-type CheckRunContext = ProbotContext[GithubClient, github.CheckRunEvent]
+// GitHubCheckRunContext is the context type for CheckRun event handler to process
+type GitHubCheckRunContext = ProbotContext[GitHubClient, github.CheckRunEvent]
 
 // Handler returns event handler function to process context
-func (githubEventCheckRunAllInOne) Handler(fn func(ctx CheckRunContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.CheckRunEvent](fn)
+func (githubEventCheckRunAllInOne) Handler(fn func(ctx GitHubCheckRunContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.CheckRunEvent](fn)
 }
 
 // githubEventCheckRun is the base event type of CheckRun
@@ -235,12 +289,12 @@ type githubEventCheckSuiteAllInOne struct {
 	Rerequested githubEventCheckSuiteRerequested
 }
 
-// CheckSuiteContext is the context type for CheckSuite event handler to process
-type CheckSuiteContext = ProbotContext[GithubClient, github.CheckSuiteEvent]
+// GitHubCheckSuiteContext is the context type for CheckSuite event handler to process
+type GitHubCheckSuiteContext = ProbotContext[GitHubClient, github.CheckSuiteEvent]
 
 // Handler returns event handler function to process context
-func (githubEventCheckSuiteAllInOne) Handler(fn func(ctx CheckSuiteContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.CheckSuiteEvent](fn)
+func (githubEventCheckSuiteAllInOne) Handler(fn func(ctx GitHubCheckSuiteContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.CheckSuiteEvent](fn)
 }
 
 // githubEventCheckSuite is the base event type of CheckSuite
@@ -276,89 +330,6 @@ type githubEventCheckSuiteRerequested struct {
 // Action implement the WebhookEvent interface
 func (githubEventCheckSuiteRerequested) Action() string { return "rerequested" }
 
-// githubEventCodeScanningAlertAllInOne contains event and handler for type CodeScanningAlert
-type githubEventCodeScanningAlertAllInOne struct {
-	githubEventCodeScanningAlert
-
-	// AppearedInBranch is `code_scanning_alert` event with `appeared_in_branch` action.
-	AppearedInBranch githubEventCodeScanningAlertAppearedInBranch
-	// ClosedByUser is `code_scanning_alert` event with `closed_by_user` action.
-	ClosedByUser githubEventCodeScanningAlertClosedByUser
-	// Created is `code_scanning_alert` event with `created` action.
-	Created githubEventCodeScanningAlertCreated
-	// Fixed is `code_scanning_alert` event with `fixed` action.
-	Fixed githubEventCodeScanningAlertFixed
-	// Reopened is `code_scanning_alert` event with `reopened` action.
-	Reopened githubEventCodeScanningAlertReopened
-	// ReopenedByUser is `code_scanning_alert` event with `reopened_by_user` action.
-	ReopenedByUser githubEventCodeScanningAlertReopenedByUser
-}
-
-// CodeScanningAlertContext is the context type for CodeScanningAlert event handler to process
-type CodeScanningAlertContext = ProbotContext[GithubClient, github.CodeScanningAlertEvent]
-
-// Handler returns event handler function to process context
-func (githubEventCodeScanningAlertAllInOne) Handler(fn func(ctx CodeScanningAlertContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.CodeScanningAlertEvent](fn)
-}
-
-// githubEventCodeScanningAlert is the base event type of CodeScanningAlert
-type githubEventCodeScanningAlert struct{}
-
-// Type implement the WebhookEvent interface
-func (githubEventCodeScanningAlert) Type() string { return "code_scanning_alert" }
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlert) Action() string { return "" }
-
-// githubEventCodeScanningAlertAppearedInBranch is the AppearedInBranch action of CodeScanningAlert event
-type githubEventCodeScanningAlertAppearedInBranch struct {
-	githubEventCodeScanningAlert
-}
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlertAppearedInBranch) Action() string { return "appeared_in_branch" }
-
-// githubEventCodeScanningAlertClosedByUser is the ClosedByUser action of CodeScanningAlert event
-type githubEventCodeScanningAlertClosedByUser struct {
-	githubEventCodeScanningAlert
-}
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlertClosedByUser) Action() string { return "closed_by_user" }
-
-// githubEventCodeScanningAlertCreated is the Created action of CodeScanningAlert event
-type githubEventCodeScanningAlertCreated struct {
-	githubEventCodeScanningAlert
-}
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlertCreated) Action() string { return "created" }
-
-// githubEventCodeScanningAlertFixed is the Fixed action of CodeScanningAlert event
-type githubEventCodeScanningAlertFixed struct {
-	githubEventCodeScanningAlert
-}
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlertFixed) Action() string { return "fixed" }
-
-// githubEventCodeScanningAlertReopened is the Reopened action of CodeScanningAlert event
-type githubEventCodeScanningAlertReopened struct {
-	githubEventCodeScanningAlert
-}
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlertReopened) Action() string { return "reopened" }
-
-// githubEventCodeScanningAlertReopenedByUser is the ReopenedByUser action of CodeScanningAlert event
-type githubEventCodeScanningAlertReopenedByUser struct {
-	githubEventCodeScanningAlert
-}
-
-// Action implement the WebhookEvent interface
-func (githubEventCodeScanningAlertReopenedByUser) Action() string { return "reopened_by_user" }
-
 // githubEventCommitCommentAllInOne contains event and handler for type CommitComment
 type githubEventCommitCommentAllInOne struct {
 	githubEventCommitComment
@@ -367,12 +338,12 @@ type githubEventCommitCommentAllInOne struct {
 	Created githubEventCommitCommentCreated
 }
 
-// CommitCommentContext is the context type for CommitComment event handler to process
-type CommitCommentContext = ProbotContext[GithubClient, github.CommitCommentEvent]
+// GitHubCommitCommentContext is the context type for CommitComment event handler to process
+type GitHubCommitCommentContext = ProbotContext[GitHubClient, github.CommitCommentEvent]
 
 // Handler returns event handler function to process context
-func (githubEventCommitCommentAllInOne) Handler(fn func(ctx CommitCommentContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.CommitCommentEvent](fn)
+func (githubEventCommitCommentAllInOne) Handler(fn func(ctx GitHubCommitCommentContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.CommitCommentEvent](fn)
 }
 
 // githubEventCommitComment is the base event type of CommitComment
@@ -397,12 +368,12 @@ type githubEventCreateAllInOne struct {
 	githubEventCreate
 }
 
-// CreateContext is the context type for Create event handler to process
-type CreateContext = ProbotContext[GithubClient, github.CreateEvent]
+// GitHubCreateContext is the context type for Create event handler to process
+type GitHubCreateContext = ProbotContext[GitHubClient, github.CreateEvent]
 
 // Handler returns event handler function to process context
-func (githubEventCreateAllInOne) Handler(fn func(ctx CreateContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.CreateEvent](fn)
+func (githubEventCreateAllInOne) Handler(fn func(ctx GitHubCreateContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.CreateEvent](fn)
 }
 
 // githubEventCreate is the base event type of Create
@@ -419,12 +390,12 @@ type githubEventDeleteAllInOne struct {
 	githubEventDelete
 }
 
-// DeleteContext is the context type for Delete event handler to process
-type DeleteContext = ProbotContext[GithubClient, github.DeleteEvent]
+// GitHubDeleteContext is the context type for Delete event handler to process
+type GitHubDeleteContext = ProbotContext[GitHubClient, github.DeleteEvent]
 
 // Handler returns event handler function to process context
-func (githubEventDeleteAllInOne) Handler(fn func(ctx DeleteContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.DeleteEvent](fn)
+func (githubEventDeleteAllInOne) Handler(fn func(ctx GitHubDeleteContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.DeleteEvent](fn)
 }
 
 // githubEventDelete is the base event type of Delete
@@ -446,12 +417,12 @@ type githubEventDeployKeyAllInOne struct {
 	Deleted githubEventDeployKeyDeleted
 }
 
-// DeployKeyContext is the context type for DeployKey event handler to process
-type DeployKeyContext = ProbotContext[GithubClient, github.DeployKeyEvent]
+// GitHubDeployKeyContext is the context type for DeployKey event handler to process
+type GitHubDeployKeyContext = ProbotContext[GitHubClient, github.DeployKeyEvent]
 
 // Handler returns event handler function to process context
-func (githubEventDeployKeyAllInOne) Handler(fn func(ctx DeployKeyContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.DeployKeyEvent](fn)
+func (githubEventDeployKeyAllInOne) Handler(fn func(ctx GitHubDeployKeyContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.DeployKeyEvent](fn)
 }
 
 // githubEventDeployKey is the base event type of DeployKey
@@ -487,12 +458,12 @@ type githubEventDeploymentStatusAllInOne struct {
 	Created githubEventDeploymentStatusCreated
 }
 
-// DeploymentStatusContext is the context type for DeploymentStatus event handler to process
-type DeploymentStatusContext = ProbotContext[GithubClient, github.DeploymentStatusEvent]
+// GitHubDeploymentStatusContext is the context type for DeploymentStatus event handler to process
+type GitHubDeploymentStatusContext = ProbotContext[GitHubClient, github.DeploymentStatusEvent]
 
 // Handler returns event handler function to process context
-func (githubEventDeploymentStatusAllInOne) Handler(fn func(ctx DeploymentStatusContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.DeploymentStatusEvent](fn)
+func (githubEventDeploymentStatusAllInOne) Handler(fn func(ctx GitHubDeploymentStatusContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.DeploymentStatusEvent](fn)
 }
 
 // githubEventDeploymentStatus is the base event type of DeploymentStatus
@@ -520,12 +491,12 @@ type githubEventDeploymentAllInOne struct {
 	Created githubEventDeploymentCreated
 }
 
-// DeploymentContext is the context type for Deployment event handler to process
-type DeploymentContext = ProbotContext[GithubClient, github.DeploymentEvent]
+// GitHubDeploymentContext is the context type for Deployment event handler to process
+type GitHubDeploymentContext = ProbotContext[GitHubClient, github.DeploymentEvent]
 
 // Handler returns event handler function to process context
-func (githubEventDeploymentAllInOne) Handler(fn func(ctx DeploymentContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.DeploymentEvent](fn)
+func (githubEventDeploymentAllInOne) Handler(fn func(ctx GitHubDeploymentContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.DeploymentEvent](fn)
 }
 
 // githubEventDeployment is the base event type of Deployment
@@ -577,12 +548,12 @@ type githubEventDiscussionAllInOne struct {
 	Unpinned githubEventDiscussionUnpinned
 }
 
-// DiscussionContext is the context type for Discussion event handler to process
-type DiscussionContext = ProbotContext[GithubClient, github.DiscussionEvent]
+// GitHubDiscussionContext is the context type for Discussion event handler to process
+type GitHubDiscussionContext = ProbotContext[GitHubClient, github.DiscussionEvent]
 
 // Handler returns event handler function to process context
-func (githubEventDiscussionAllInOne) Handler(fn func(ctx DiscussionContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.DiscussionEvent](fn)
+func (githubEventDiscussionAllInOne) Handler(fn func(ctx GitHubDiscussionContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.DiscussionEvent](fn)
 }
 
 // githubEventDiscussion is the base event type of Discussion
@@ -703,12 +674,12 @@ type githubEventForkAllInOne struct {
 	githubEventFork
 }
 
-// ForkContext is the context type for Fork event handler to process
-type ForkContext = ProbotContext[GithubClient, github.ForkEvent]
+// GitHubForkContext is the context type for Fork event handler to process
+type GitHubForkContext = ProbotContext[GitHubClient, github.ForkEvent]
 
 // Handler returns event handler function to process context
-func (githubEventForkAllInOne) Handler(fn func(ctx ForkContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.ForkEvent](fn)
+func (githubEventForkAllInOne) Handler(fn func(ctx GitHubForkContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.ForkEvent](fn)
 }
 
 // githubEventFork is the base event type of Fork
@@ -725,19 +696,19 @@ type githubEventGitHubAppAuthorizationAllInOne struct {
 	githubEventGitHubAppAuthorization
 }
 
-// GitHubAppAuthorizationContext is the context type for GitHubAppAuthorization event handler to process
-type GitHubAppAuthorizationContext = ProbotContext[GithubClient, github.GitHubAppAuthorizationEvent]
+// GitHubGitHubAppAuthorizationContext is the context type for GitHubAppAuthorization event handler to process
+type GitHubGitHubAppAuthorizationContext = ProbotContext[GitHubClient, github.GitHubAppAuthorizationEvent]
 
 // Handler returns event handler function to process context
-func (githubEventGitHubAppAuthorizationAllInOne) Handler(fn func(ctx GitHubAppAuthorizationContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.GitHubAppAuthorizationEvent](fn)
+func (githubEventGitHubAppAuthorizationAllInOne) Handler(fn func(ctx GitHubGitHubAppAuthorizationContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.GitHubAppAuthorizationEvent](fn)
 }
 
 // githubEventGitHubAppAuthorization is the base event type of GitHubAppAuthorization
 type githubEventGitHubAppAuthorization struct{}
 
 // Type implement the WebhookEvent interface
-func (githubEventGitHubAppAuthorization) Type() string { return "git_hub_app_authorization" }
+func (githubEventGitHubAppAuthorization) Type() string { return "github_app_authorization" }
 
 // Action implement the WebhookEvent interface
 func (githubEventGitHubAppAuthorization) Action() string { return "" }
@@ -747,12 +718,12 @@ type githubEventGollumAllInOne struct {
 	githubEventGollum
 }
 
-// GollumContext is the context type for Gollum event handler to process
-type GollumContext = ProbotContext[GithubClient, github.GollumEvent]
+// GitHubGollumContext is the context type for Gollum event handler to process
+type GitHubGollumContext = ProbotContext[GitHubClient, github.GollumEvent]
 
 // Handler returns event handler function to process context
-func (githubEventGollumAllInOne) Handler(fn func(ctx GollumContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.GollumEvent](fn)
+func (githubEventGollumAllInOne) Handler(fn func(ctx GitHubGollumContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.GollumEvent](fn)
 }
 
 // githubEventGollum is the base event type of Gollum
@@ -774,12 +745,12 @@ type githubEventInstallationRepositoriesAllInOne struct {
 	Removed githubEventInstallationRepositoriesRemoved
 }
 
-// InstallationRepositoriesContext is the context type for InstallationRepositories event handler to process
-type InstallationRepositoriesContext = ProbotContext[GithubClient, github.InstallationRepositoriesEvent]
+// GitHubInstallationRepositoriesContext is the context type for InstallationRepositories event handler to process
+type GitHubInstallationRepositoriesContext = ProbotContext[GitHubClient, github.InstallationRepositoriesEvent]
 
 // Handler returns event handler function to process context
-func (githubEventInstallationRepositoriesAllInOne) Handler(fn func(ctx InstallationRepositoriesContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.InstallationRepositoriesEvent](fn)
+func (githubEventInstallationRepositoriesAllInOne) Handler(fn func(ctx GitHubInstallationRepositoriesContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.InstallationRepositoriesEvent](fn)
 }
 
 // githubEventInstallationRepositories is the base event type of InstallationRepositories
@@ -823,12 +794,12 @@ type githubEventInstallationAllInOne struct {
 	Unsuspend githubEventInstallationUnsuspend
 }
 
-// InstallationContext is the context type for Installation event handler to process
-type InstallationContext = ProbotContext[GithubClient, github.InstallationEvent]
+// GitHubInstallationContext is the context type for Installation event handler to process
+type GitHubInstallationContext = ProbotContext[GitHubClient, github.InstallationEvent]
 
 // Handler returns event handler function to process context
-func (githubEventInstallationAllInOne) Handler(fn func(ctx InstallationContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.InstallationEvent](fn)
+func (githubEventInstallationAllInOne) Handler(fn func(ctx GitHubInstallationContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.InstallationEvent](fn)
 }
 
 // githubEventInstallation is the base event type of Installation
@@ -894,12 +865,12 @@ type githubEventIssueCommentAllInOne struct {
 	Edited githubEventIssueCommentEdited
 }
 
-// IssueCommentContext is the context type for IssueComment event handler to process
-type IssueCommentContext = ProbotContext[GithubClient, github.IssueCommentEvent]
+// GitHubIssueCommentContext is the context type for IssueComment event handler to process
+type GitHubIssueCommentContext = ProbotContext[GitHubClient, github.IssueCommentEvent]
 
 // Handler returns event handler function to process context
-func (githubEventIssueCommentAllInOne) Handler(fn func(ctx IssueCommentContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.IssueCommentEvent](fn)
+func (githubEventIssueCommentAllInOne) Handler(fn func(ctx GitHubIssueCommentContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.IssueCommentEvent](fn)
 }
 
 // githubEventIssueComment is the base event type of IssueComment
@@ -973,12 +944,12 @@ type githubEventIssuesAllInOne struct {
 	Unpinned githubEventIssuesUnpinned
 }
 
-// IssuesContext is the context type for Issues event handler to process
-type IssuesContext = ProbotContext[GithubClient, github.IssuesEvent]
+// GitHubIssuesContext is the context type for Issues event handler to process
+type GitHubIssuesContext = ProbotContext[GitHubClient, github.IssuesEvent]
 
 // Handler returns event handler function to process context
-func (githubEventIssuesAllInOne) Handler(fn func(ctx IssuesContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.IssuesEvent](fn)
+func (githubEventIssuesAllInOne) Handler(fn func(ctx GitHubIssuesContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.IssuesEvent](fn)
 }
 
 // githubEventIssues is the base event type of Issues
@@ -1130,12 +1101,12 @@ type githubEventLabelAllInOne struct {
 	Edited githubEventLabelEdited
 }
 
-// LabelContext is the context type for Label event handler to process
-type LabelContext = ProbotContext[GithubClient, github.LabelEvent]
+// GitHubLabelContext is the context type for Label event handler to process
+type GitHubLabelContext = ProbotContext[GitHubClient, github.LabelEvent]
 
 // Handler returns event handler function to process context
-func (githubEventLabelAllInOne) Handler(fn func(ctx LabelContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.LabelEvent](fn)
+func (githubEventLabelAllInOne) Handler(fn func(ctx GitHubLabelContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.LabelEvent](fn)
 }
 
 // githubEventLabel is the base event type of Label
@@ -1187,12 +1158,12 @@ type githubEventMarketplacePurchaseAllInOne struct {
 	Purchased githubEventMarketplacePurchasePurchased
 }
 
-// MarketplacePurchaseContext is the context type for MarketplacePurchase event handler to process
-type MarketplacePurchaseContext = ProbotContext[GithubClient, github.MarketplacePurchaseEvent]
+// GitHubMarketplacePurchaseContext is the context type for MarketplacePurchase event handler to process
+type GitHubMarketplacePurchaseContext = ProbotContext[GitHubClient, github.MarketplacePurchaseEvent]
 
 // Handler returns event handler function to process context
-func (githubEventMarketplacePurchaseAllInOne) Handler(fn func(ctx MarketplacePurchaseContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.MarketplacePurchaseEvent](fn)
+func (githubEventMarketplacePurchaseAllInOne) Handler(fn func(ctx GitHubMarketplacePurchaseContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.MarketplacePurchaseEvent](fn)
 }
 
 // githubEventMarketplacePurchase is the base event type of MarketplacePurchase
@@ -1258,12 +1229,12 @@ type githubEventMemberAllInOne struct {
 	Removed githubEventMemberRemoved
 }
 
-// MemberContext is the context type for Member event handler to process
-type MemberContext = ProbotContext[GithubClient, github.MemberEvent]
+// GitHubMemberContext is the context type for Member event handler to process
+type GitHubMemberContext = ProbotContext[GitHubClient, github.MemberEvent]
 
 // Handler returns event handler function to process context
-func (githubEventMemberAllInOne) Handler(fn func(ctx MemberContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.MemberEvent](fn)
+func (githubEventMemberAllInOne) Handler(fn func(ctx GitHubMemberContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.MemberEvent](fn)
 }
 
 // githubEventMember is the base event type of Member
@@ -1309,12 +1280,12 @@ type githubEventMembershipAllInOne struct {
 	Removed githubEventMembershipRemoved
 }
 
-// MembershipContext is the context type for Membership event handler to process
-type MembershipContext = ProbotContext[GithubClient, github.MembershipEvent]
+// GitHubMembershipContext is the context type for Membership event handler to process
+type GitHubMembershipContext = ProbotContext[GitHubClient, github.MembershipEvent]
 
 // Handler returns event handler function to process context
-func (githubEventMembershipAllInOne) Handler(fn func(ctx MembershipContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.MembershipEvent](fn)
+func (githubEventMembershipAllInOne) Handler(fn func(ctx GitHubMembershipContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.MembershipEvent](fn)
 }
 
 // githubEventMembership is the base event type of Membership
@@ -1347,12 +1318,12 @@ type githubEventMergeGroupAllInOne struct {
 	githubEventMergeGroup
 }
 
-// MergeGroupContext is the context type for MergeGroup event handler to process
-type MergeGroupContext = ProbotContext[GithubClient, github.MergeGroupEvent]
+// GitHubMergeGroupContext is the context type for MergeGroup event handler to process
+type GitHubMergeGroupContext = ProbotContext[GitHubClient, github.MergeGroupEvent]
 
 // Handler returns event handler function to process context
-func (githubEventMergeGroupAllInOne) Handler(fn func(ctx MergeGroupContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.MergeGroupEvent](fn)
+func (githubEventMergeGroupAllInOne) Handler(fn func(ctx GitHubMergeGroupContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.MergeGroupEvent](fn)
 }
 
 // githubEventMergeGroup is the base event type of MergeGroup
@@ -1372,12 +1343,12 @@ type githubEventMetaAllInOne struct {
 	Deleted githubEventMetaDeleted
 }
 
-// MetaContext is the context type for Meta event handler to process
-type MetaContext = ProbotContext[GithubClient, github.MetaEvent]
+// GitHubMetaContext is the context type for Meta event handler to process
+type GitHubMetaContext = ProbotContext[GitHubClient, github.MetaEvent]
 
 // Handler returns event handler function to process context
-func (githubEventMetaAllInOne) Handler(fn func(ctx MetaContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.MetaEvent](fn)
+func (githubEventMetaAllInOne) Handler(fn func(ctx GitHubMetaContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.MetaEvent](fn)
 }
 
 // githubEventMeta is the base event type of Meta
@@ -1397,6 +1368,513 @@ type githubEventMetaDeleted struct {
 // Action implement the WebhookEvent interface
 func (githubEventMetaDeleted) Action() string { return "deleted" }
 
+// githubEventMilestoneAllInOne contains event and handler for type Milestone
+type githubEventMilestoneAllInOne struct {
+	githubEventMilestone
+
+	// Closed is `milestone` event with `closed` action.
+	Closed githubEventMilestoneClosed
+	// Created is `milestone` event with `created` action.
+	Created githubEventMilestoneCreated
+	// Deleted is `milestone` event with `deleted` action.
+	Deleted githubEventMilestoneDeleted
+	// Edited is `milestone` event with `edited` action.
+	Edited githubEventMilestoneEdited
+	// Opened is `milestone` event with `opened` action.
+	Opened githubEventMilestoneOpened
+}
+
+// GitHubMilestoneContext is the context type for Milestone event handler to process
+type GitHubMilestoneContext = ProbotContext[GitHubClient, github.MilestoneEvent]
+
+// Handler returns event handler function to process context
+func (githubEventMilestoneAllInOne) Handler(fn func(ctx GitHubMilestoneContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.MilestoneEvent](fn)
+}
+
+// githubEventMilestone is the base event type of Milestone
+type githubEventMilestone struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventMilestone) Type() string { return "milestone" }
+
+// Action implement the WebhookEvent interface
+func (githubEventMilestone) Action() string { return "" }
+
+// githubEventMilestoneClosed is the Closed action of Milestone event
+type githubEventMilestoneClosed struct {
+	githubEventMilestone
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventMilestoneClosed) Action() string { return "closed" }
+
+// githubEventMilestoneCreated is the Created action of Milestone event
+type githubEventMilestoneCreated struct {
+	githubEventMilestone
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventMilestoneCreated) Action() string { return "created" }
+
+// githubEventMilestoneDeleted is the Deleted action of Milestone event
+type githubEventMilestoneDeleted struct {
+	githubEventMilestone
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventMilestoneDeleted) Action() string { return "deleted" }
+
+// githubEventMilestoneEdited is the Edited action of Milestone event
+type githubEventMilestoneEdited struct {
+	githubEventMilestone
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventMilestoneEdited) Action() string { return "edited" }
+
+// githubEventMilestoneOpened is the Opened action of Milestone event
+type githubEventMilestoneOpened struct {
+	githubEventMilestone
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventMilestoneOpened) Action() string { return "opened" }
+
+// githubEventOrgBlockAllInOne contains event and handler for type OrgBlock
+type githubEventOrgBlockAllInOne struct {
+	githubEventOrgBlock
+
+	// Blocked is `org_block` event with `blocked` action.
+	Blocked githubEventOrgBlockBlocked
+	// Unblocked is `org_block` event with `unblocked` action.
+	Unblocked githubEventOrgBlockUnblocked
+}
+
+// GitHubOrgBlockContext is the context type for OrgBlock event handler to process
+type GitHubOrgBlockContext = ProbotContext[GitHubClient, github.OrgBlockEvent]
+
+// Handler returns event handler function to process context
+func (githubEventOrgBlockAllInOne) Handler(fn func(ctx GitHubOrgBlockContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.OrgBlockEvent](fn)
+}
+
+// githubEventOrgBlock is the base event type of OrgBlock
+type githubEventOrgBlock struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventOrgBlock) Type() string { return "org_block" }
+
+// Action implement the WebhookEvent interface
+func (githubEventOrgBlock) Action() string { return "" }
+
+// githubEventOrgBlockBlocked is the Blocked action of OrgBlock event
+type githubEventOrgBlockBlocked struct {
+	githubEventOrgBlock
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrgBlockBlocked) Action() string { return "blocked" }
+
+// githubEventOrgBlockUnblocked is the Unblocked action of OrgBlock event
+type githubEventOrgBlockUnblocked struct {
+	githubEventOrgBlock
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrgBlockUnblocked) Action() string { return "unblocked" }
+
+// githubEventOrganizationAllInOne contains event and handler for type Organization
+type githubEventOrganizationAllInOne struct {
+	githubEventOrganization
+
+	// Deleted is `organization` event with `deleted` action.
+	Deleted githubEventOrganizationDeleted
+	// MemberAdded is `organization` event with `member_added` action.
+	MemberAdded githubEventOrganizationMemberAdded
+	// MemberInvited is `organization` event with `member_invited` action.
+	MemberInvited githubEventOrganizationMemberInvited
+	// MemberRemoved is `organization` event with `member_removed` action.
+	MemberRemoved githubEventOrganizationMemberRemoved
+	// Renamed is `organization` event with `renamed` action.
+	Renamed githubEventOrganizationRenamed
+}
+
+// GitHubOrganizationContext is the context type for Organization event handler to process
+type GitHubOrganizationContext = ProbotContext[GitHubClient, github.OrganizationEvent]
+
+// Handler returns event handler function to process context
+func (githubEventOrganizationAllInOne) Handler(fn func(ctx GitHubOrganizationContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.OrganizationEvent](fn)
+}
+
+// githubEventOrganization is the base event type of Organization
+type githubEventOrganization struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventOrganization) Type() string { return "organization" }
+
+// Action implement the WebhookEvent interface
+func (githubEventOrganization) Action() string { return "" }
+
+// githubEventOrganizationDeleted is the Deleted action of Organization event
+type githubEventOrganizationDeleted struct {
+	githubEventOrganization
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrganizationDeleted) Action() string { return "deleted" }
+
+// githubEventOrganizationMemberAdded is the MemberAdded action of Organization event
+type githubEventOrganizationMemberAdded struct {
+	githubEventOrganization
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrganizationMemberAdded) Action() string { return "member_added" }
+
+// githubEventOrganizationMemberInvited is the MemberInvited action of Organization event
+type githubEventOrganizationMemberInvited struct {
+	githubEventOrganization
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrganizationMemberInvited) Action() string { return "member_invited" }
+
+// githubEventOrganizationMemberRemoved is the MemberRemoved action of Organization event
+type githubEventOrganizationMemberRemoved struct {
+	githubEventOrganization
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrganizationMemberRemoved) Action() string { return "member_removed" }
+
+// githubEventOrganizationRenamed is the Renamed action of Organization event
+type githubEventOrganizationRenamed struct {
+	githubEventOrganization
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventOrganizationRenamed) Action() string { return "renamed" }
+
+// githubEventPackageAllInOne contains event and handler for type Package
+type githubEventPackageAllInOne struct {
+	githubEventPackage
+
+	// Published is `package` event with `published` action.
+	Published githubEventPackagePublished
+	// Updated is `package` event with `updated` action.
+	Updated githubEventPackageUpdated
+}
+
+// GitHubPackageContext is the context type for Package event handler to process
+type GitHubPackageContext = ProbotContext[GitHubClient, github.PackageEvent]
+
+// Handler returns event handler function to process context
+func (githubEventPackageAllInOne) Handler(fn func(ctx GitHubPackageContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PackageEvent](fn)
+}
+
+// githubEventPackage is the base event type of Package
+type githubEventPackage struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventPackage) Type() string { return "package" }
+
+// Action implement the WebhookEvent interface
+func (githubEventPackage) Action() string { return "" }
+
+// githubEventPackagePublished is the Published action of Package event
+type githubEventPackagePublished struct {
+	githubEventPackage
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventPackagePublished) Action() string { return "published" }
+
+// githubEventPackageUpdated is the Updated action of Package event
+type githubEventPackageUpdated struct {
+	githubEventPackage
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventPackageUpdated) Action() string { return "updated" }
+
+// githubEventPageBuildAllInOne contains event and handler for type PageBuild
+type githubEventPageBuildAllInOne struct {
+	githubEventPageBuild
+}
+
+// GitHubPageBuildContext is the context type for PageBuild event handler to process
+type GitHubPageBuildContext = ProbotContext[GitHubClient, github.PageBuildEvent]
+
+// Handler returns event handler function to process context
+func (githubEventPageBuildAllInOne) Handler(fn func(ctx GitHubPageBuildContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PageBuildEvent](fn)
+}
+
+// githubEventPageBuild is the base event type of PageBuild
+type githubEventPageBuild struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventPageBuild) Type() string { return "page_build" }
+
+// Action implement the WebhookEvent interface
+func (githubEventPageBuild) Action() string { return "" }
+
+// githubEventPingAllInOne contains event and handler for type Ping
+type githubEventPingAllInOne struct {
+	githubEventPing
+}
+
+// GitHubPingContext is the context type for Ping event handler to process
+type GitHubPingContext = ProbotContext[GitHubClient, github.PingEvent]
+
+// Handler returns event handler function to process context
+func (githubEventPingAllInOne) Handler(fn func(ctx GitHubPingContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PingEvent](fn)
+}
+
+// githubEventPing is the base event type of Ping
+type githubEventPing struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventPing) Type() string { return "ping" }
+
+// Action implement the WebhookEvent interface
+func (githubEventPing) Action() string { return "" }
+
+// githubEventProjectCardAllInOne contains event and handler for type ProjectCard
+type githubEventProjectCardAllInOne struct {
+	githubEventProjectCard
+
+	// Converted is `project_card` event with `converted` action.
+	Converted githubEventProjectCardConverted
+	// Created is `project_card` event with `created` action.
+	Created githubEventProjectCardCreated
+	// Deleted is `project_card` event with `deleted` action.
+	Deleted githubEventProjectCardDeleted
+	// Edited is `project_card` event with `edited` action.
+	Edited githubEventProjectCardEdited
+	// Moved is `project_card` event with `moved` action.
+	Moved githubEventProjectCardMoved
+}
+
+// GitHubProjectCardContext is the context type for ProjectCard event handler to process
+type GitHubProjectCardContext = ProbotContext[GitHubClient, github.ProjectCardEvent]
+
+// Handler returns event handler function to process context
+func (githubEventProjectCardAllInOne) Handler(fn func(ctx GitHubProjectCardContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.ProjectCardEvent](fn)
+}
+
+// githubEventProjectCard is the base event type of ProjectCard
+type githubEventProjectCard struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventProjectCard) Type() string { return "project_card" }
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCard) Action() string { return "" }
+
+// githubEventProjectCardConverted is the Converted action of ProjectCard event
+type githubEventProjectCardConverted struct {
+	githubEventProjectCard
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCardConverted) Action() string { return "converted" }
+
+// githubEventProjectCardCreated is the Created action of ProjectCard event
+type githubEventProjectCardCreated struct {
+	githubEventProjectCard
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCardCreated) Action() string { return "created" }
+
+// githubEventProjectCardDeleted is the Deleted action of ProjectCard event
+type githubEventProjectCardDeleted struct {
+	githubEventProjectCard
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCardDeleted) Action() string { return "deleted" }
+
+// githubEventProjectCardEdited is the Edited action of ProjectCard event
+type githubEventProjectCardEdited struct {
+	githubEventProjectCard
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCardEdited) Action() string { return "edited" }
+
+// githubEventProjectCardMoved is the Moved action of ProjectCard event
+type githubEventProjectCardMoved struct {
+	githubEventProjectCard
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCardMoved) Action() string { return "moved" }
+
+// githubEventProjectAllInOne contains event and handler for type Project
+type githubEventProjectAllInOne struct {
+	githubEventProject
+
+	// Closed is `project` event with `closed` action.
+	Closed githubEventProjectClosed
+	// Created is `project` event with `created` action.
+	Created githubEventProjectCreated
+	// Deleted is `project` event with `deleted` action.
+	Deleted githubEventProjectDeleted
+	// Edited is `project` event with `edited` action.
+	Edited githubEventProjectEdited
+	// Reopened is `project` event with `reopened` action.
+	Reopened githubEventProjectReopened
+}
+
+// GitHubProjectContext is the context type for Project event handler to process
+type GitHubProjectContext = ProbotContext[GitHubClient, github.ProjectEvent]
+
+// Handler returns event handler function to process context
+func (githubEventProjectAllInOne) Handler(fn func(ctx GitHubProjectContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.ProjectEvent](fn)
+}
+
+// githubEventProject is the base event type of Project
+type githubEventProject struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventProject) Type() string { return "project" }
+
+// Action implement the WebhookEvent interface
+func (githubEventProject) Action() string { return "" }
+
+// githubEventProjectClosed is the Closed action of Project event
+type githubEventProjectClosed struct {
+	githubEventProject
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectClosed) Action() string { return "closed" }
+
+// githubEventProjectCreated is the Created action of Project event
+type githubEventProjectCreated struct {
+	githubEventProject
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectCreated) Action() string { return "created" }
+
+// githubEventProjectDeleted is the Deleted action of Project event
+type githubEventProjectDeleted struct {
+	githubEventProject
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectDeleted) Action() string { return "deleted" }
+
+// githubEventProjectEdited is the Edited action of Project event
+type githubEventProjectEdited struct {
+	githubEventProject
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectEdited) Action() string { return "edited" }
+
+// githubEventProjectReopened is the Reopened action of Project event
+type githubEventProjectReopened struct {
+	githubEventProject
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectReopened) Action() string { return "reopened" }
+
+// githubEventProjectColumnAllInOne contains event and handler for type ProjectColumn
+type githubEventProjectColumnAllInOne struct {
+	githubEventProjectColumn
+
+	// Created is `project_column` event with `created` action.
+	Created githubEventProjectColumnCreated
+	// Deleted is `project_column` event with `deleted` action.
+	Deleted githubEventProjectColumnDeleted
+	// Edited is `project_column` event with `edited` action.
+	Edited githubEventProjectColumnEdited
+	// Moved is `project_column` event with `moved` action.
+	Moved githubEventProjectColumnMoved
+}
+
+// GitHubProjectColumnContext is the context type for ProjectColumn event handler to process
+type GitHubProjectColumnContext = ProbotContext[GitHubClient, github.ProjectColumnEvent]
+
+// Handler returns event handler function to process context
+func (githubEventProjectColumnAllInOne) Handler(fn func(ctx GitHubProjectColumnContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.ProjectColumnEvent](fn)
+}
+
+// githubEventProjectColumn is the base event type of ProjectColumn
+type githubEventProjectColumn struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventProjectColumn) Type() string { return "project_column" }
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectColumn) Action() string { return "" }
+
+// githubEventProjectColumnCreated is the Created action of ProjectColumn event
+type githubEventProjectColumnCreated struct {
+	githubEventProjectColumn
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectColumnCreated) Action() string { return "created" }
+
+// githubEventProjectColumnDeleted is the Deleted action of ProjectColumn event
+type githubEventProjectColumnDeleted struct {
+	githubEventProjectColumn
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectColumnDeleted) Action() string { return "deleted" }
+
+// githubEventProjectColumnEdited is the Edited action of ProjectColumn event
+type githubEventProjectColumnEdited struct {
+	githubEventProjectColumn
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectColumnEdited) Action() string { return "edited" }
+
+// githubEventProjectColumnMoved is the Moved action of ProjectColumn event
+type githubEventProjectColumnMoved struct {
+	githubEventProjectColumn
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventProjectColumnMoved) Action() string { return "moved" }
+
+// githubEventPublicAllInOne contains event and handler for type Public
+type githubEventPublicAllInOne struct {
+	githubEventPublic
+}
+
+// GitHubPublicContext is the context type for Public event handler to process
+type GitHubPublicContext = ProbotContext[GitHubClient, github.PublicEvent]
+
+// Handler returns event handler function to process context
+func (githubEventPublicAllInOne) Handler(fn func(ctx GitHubPublicContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PublicEvent](fn)
+}
+
+// githubEventPublic is the base event type of Public
+type githubEventPublic struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventPublic) Type() string { return "public" }
+
+// Action implement the WebhookEvent interface
+func (githubEventPublic) Action() string { return "" }
+
 // githubEventPullRequestReviewCommentAllInOne contains event and handler for type PullRequestReviewComment
 type githubEventPullRequestReviewCommentAllInOne struct {
 	githubEventPullRequestReviewComment
@@ -1409,12 +1887,12 @@ type githubEventPullRequestReviewCommentAllInOne struct {
 	Edited githubEventPullRequestReviewCommentEdited
 }
 
-// PullRequestReviewCommentContext is the context type for PullRequestReviewComment event handler to process
-type PullRequestReviewCommentContext = ProbotContext[GithubClient, github.PullRequestReviewCommentEvent]
+// GitHubPullRequestReviewCommentContext is the context type for PullRequestReviewComment event handler to process
+type GitHubPullRequestReviewCommentContext = ProbotContext[GitHubClient, github.PullRequestReviewCommentEvent]
 
 // Handler returns event handler function to process context
-func (githubEventPullRequestReviewCommentAllInOne) Handler(fn func(ctx PullRequestReviewCommentContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.PullRequestReviewCommentEvent](fn)
+func (githubEventPullRequestReviewCommentAllInOne) Handler(fn func(ctx GitHubPullRequestReviewCommentContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PullRequestReviewCommentEvent](fn)
 }
 
 // githubEventPullRequestReviewComment is the base event type of PullRequestReviewComment
@@ -1460,12 +1938,12 @@ type githubEventPullRequestReviewThreadAllInOne struct {
 	Unresolved githubEventPullRequestReviewThreadUnresolved
 }
 
-// PullRequestReviewThreadContext is the context type for PullRequestReviewThread event handler to process
-type PullRequestReviewThreadContext = ProbotContext[GithubClient, github.PullRequestReviewThreadEvent]
+// GitHubPullRequestReviewThreadContext is the context type for PullRequestReviewThread event handler to process
+type GitHubPullRequestReviewThreadContext = ProbotContext[GitHubClient, github.PullRequestReviewThreadEvent]
 
 // Handler returns event handler function to process context
-func (githubEventPullRequestReviewThreadAllInOne) Handler(fn func(ctx PullRequestReviewThreadContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.PullRequestReviewThreadEvent](fn)
+func (githubEventPullRequestReviewThreadAllInOne) Handler(fn func(ctx GitHubPullRequestReviewThreadContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PullRequestReviewThreadEvent](fn)
 }
 
 // githubEventPullRequestReviewThread is the base event type of PullRequestReviewThread
@@ -1505,12 +1983,12 @@ type githubEventPullRequestReviewAllInOne struct {
 	Submitted githubEventPullRequestReviewSubmitted
 }
 
-// PullRequestReviewContext is the context type for PullRequestReview event handler to process
-type PullRequestReviewContext = ProbotContext[GithubClient, github.PullRequestReviewEvent]
+// GitHubPullRequestReviewContext is the context type for PullRequestReview event handler to process
+type GitHubPullRequestReviewContext = ProbotContext[GitHubClient, github.PullRequestReviewEvent]
 
 // Handler returns event handler function to process context
-func (githubEventPullRequestReviewAllInOne) Handler(fn func(ctx PullRequestReviewContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.PullRequestReviewEvent](fn)
+func (githubEventPullRequestReviewAllInOne) Handler(fn func(ctx GitHubPullRequestReviewContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PullRequestReviewEvent](fn)
 }
 
 // githubEventPullRequestReview is the base event type of PullRequestReview
@@ -1592,12 +2070,12 @@ type githubEventPullRequestAllInOne struct {
 	Unlocked githubEventPullRequestUnlocked
 }
 
-// PullRequestContext is the context type for PullRequest event handler to process
-type PullRequestContext = ProbotContext[GithubClient, github.PullRequestEvent]
+// GitHubPullRequestContext is the context type for PullRequest event handler to process
+type GitHubPullRequestContext = ProbotContext[GitHubClient, github.PullRequestEvent]
 
 // Handler returns event handler function to process context
-func (githubEventPullRequestAllInOne) Handler(fn func(ctx PullRequestContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.PullRequestEvent](fn)
+func (githubEventPullRequestAllInOne) Handler(fn func(ctx GitHubPullRequestContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PullRequestEvent](fn)
 }
 
 // githubEventPullRequest is the base event type of PullRequest
@@ -1774,12 +2252,12 @@ type githubEventPushAllInOne struct {
 	githubEventPush
 }
 
-// PushContext is the context type for Push event handler to process
-type PushContext = ProbotContext[GithubClient, github.PushEvent]
+// GitHubPushContext is the context type for Push event handler to process
+type GitHubPushContext = ProbotContext[GitHubClient, github.PushEvent]
 
 // Handler returns event handler function to process context
-func (githubEventPushAllInOne) Handler(fn func(ctx PushContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.PushEvent](fn)
+func (githubEventPushAllInOne) Handler(fn func(ctx GitHubPushContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.PushEvent](fn)
 }
 
 // githubEventPush is the base event type of Push
@@ -1791,17 +2269,531 @@ func (githubEventPush) Type() string { return "push" }
 // Action implement the WebhookEvent interface
 func (githubEventPush) Action() string { return "" }
 
+// githubEventReleaseAllInOne contains event and handler for type Release
+type githubEventReleaseAllInOne struct {
+	githubEventRelease
+
+	// Created is `release` event with `created` action.
+	Created githubEventReleaseCreated
+	// Deleted is `release` event with `deleted` action.
+	Deleted githubEventReleaseDeleted
+	// Edited is `release` event with `edited` action.
+	Edited githubEventReleaseEdited
+	// Prereleased is `release` event with `prereleased` action.
+	Prereleased githubEventReleasePrereleased
+	// Published is `release` event with `published` action.
+	Published githubEventReleasePublished
+	// Released is `release` event with `released` action.
+	Released githubEventReleaseReleased
+	// Unpublished is `release` event with `unpublished` action.
+	Unpublished githubEventReleaseUnpublished
+}
+
+// GitHubReleaseContext is the context type for Release event handler to process
+type GitHubReleaseContext = ProbotContext[GitHubClient, github.ReleaseEvent]
+
+// Handler returns event handler function to process context
+func (githubEventReleaseAllInOne) Handler(fn func(ctx GitHubReleaseContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.ReleaseEvent](fn)
+}
+
+// githubEventRelease is the base event type of Release
+type githubEventRelease struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventRelease) Type() string { return "release" }
+
+// Action implement the WebhookEvent interface
+func (githubEventRelease) Action() string { return "" }
+
+// githubEventReleaseCreated is the Created action of Release event
+type githubEventReleaseCreated struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleaseCreated) Action() string { return "created" }
+
+// githubEventReleaseDeleted is the Deleted action of Release event
+type githubEventReleaseDeleted struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleaseDeleted) Action() string { return "deleted" }
+
+// githubEventReleaseEdited is the Edited action of Release event
+type githubEventReleaseEdited struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleaseEdited) Action() string { return "edited" }
+
+// githubEventReleasePrereleased is the Prereleased action of Release event
+type githubEventReleasePrereleased struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleasePrereleased) Action() string { return "prereleased" }
+
+// githubEventReleasePublished is the Published action of Release event
+type githubEventReleasePublished struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleasePublished) Action() string { return "published" }
+
+// githubEventReleaseReleased is the Released action of Release event
+type githubEventReleaseReleased struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleaseReleased) Action() string { return "released" }
+
+// githubEventReleaseUnpublished is the Unpublished action of Release event
+type githubEventReleaseUnpublished struct {
+	githubEventRelease
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventReleaseUnpublished) Action() string { return "unpublished" }
+
+// githubEventRepositoryAllInOne contains event and handler for type Repository
+type githubEventRepositoryAllInOne struct {
+	githubEventRepository
+
+	// Archived is `repository` event with `archived` action.
+	Archived githubEventRepositoryArchived
+	// Created is `repository` event with `created` action.
+	Created githubEventRepositoryCreated
+	// Deleted is `repository` event with `deleted` action.
+	Deleted githubEventRepositoryDeleted
+	// Edited is `repository` event with `edited` action.
+	Edited githubEventRepositoryEdited
+	// Privatized is `repository` event with `privatized` action.
+	Privatized githubEventRepositoryPrivatized
+	// Publicized is `repository` event with `publicized` action.
+	Publicized githubEventRepositoryPublicized
+	// Renamed is `repository` event with `renamed` action.
+	Renamed githubEventRepositoryRenamed
+	// Transferred is `repository` event with `transferred` action.
+	Transferred githubEventRepositoryTransferred
+	// Unarchived is `repository` event with `unarchived` action.
+	Unarchived githubEventRepositoryUnarchived
+}
+
+// GitHubRepositoryContext is the context type for Repository event handler to process
+type GitHubRepositoryContext = ProbotContext[GitHubClient, github.RepositoryEvent]
+
+// Handler returns event handler function to process context
+func (githubEventRepositoryAllInOne) Handler(fn func(ctx GitHubRepositoryContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.RepositoryEvent](fn)
+}
+
+// githubEventRepository is the base event type of Repository
+type githubEventRepository struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventRepository) Type() string { return "repository" }
+
+// Action implement the WebhookEvent interface
+func (githubEventRepository) Action() string { return "" }
+
+// githubEventRepositoryArchived is the Archived action of Repository event
+type githubEventRepositoryArchived struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryArchived) Action() string { return "archived" }
+
+// githubEventRepositoryCreated is the Created action of Repository event
+type githubEventRepositoryCreated struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryCreated) Action() string { return "created" }
+
+// githubEventRepositoryDeleted is the Deleted action of Repository event
+type githubEventRepositoryDeleted struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryDeleted) Action() string { return "deleted" }
+
+// githubEventRepositoryEdited is the Edited action of Repository event
+type githubEventRepositoryEdited struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryEdited) Action() string { return "edited" }
+
+// githubEventRepositoryPrivatized is the Privatized action of Repository event
+type githubEventRepositoryPrivatized struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryPrivatized) Action() string { return "privatized" }
+
+// githubEventRepositoryPublicized is the Publicized action of Repository event
+type githubEventRepositoryPublicized struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryPublicized) Action() string { return "publicized" }
+
+// githubEventRepositoryRenamed is the Renamed action of Repository event
+type githubEventRepositoryRenamed struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryRenamed) Action() string { return "renamed" }
+
+// githubEventRepositoryTransferred is the Transferred action of Repository event
+type githubEventRepositoryTransferred struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryTransferred) Action() string { return "transferred" }
+
+// githubEventRepositoryUnarchived is the Unarchived action of Repository event
+type githubEventRepositoryUnarchived struct {
+	githubEventRepository
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryUnarchived) Action() string { return "unarchived" }
+
+// githubEventRepositoryDispatchAllInOne contains event and handler for type RepositoryDispatch
+type githubEventRepositoryDispatchAllInOne struct {
+	githubEventRepositoryDispatch
+}
+
+// GitHubRepositoryDispatchContext is the context type for RepositoryDispatch event handler to process
+type GitHubRepositoryDispatchContext = ProbotContext[GitHubClient, github.RepositoryDispatchEvent]
+
+// Handler returns event handler function to process context
+func (githubEventRepositoryDispatchAllInOne) Handler(fn func(ctx GitHubRepositoryDispatchContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.RepositoryDispatchEvent](fn)
+}
+
+// githubEventRepositoryDispatch is the base event type of RepositoryDispatch
+type githubEventRepositoryDispatch struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventRepositoryDispatch) Type() string { return "repository_dispatch" }
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryDispatch) Action() string { return "" }
+
+// githubEventRepositoryVulnerabilityAlertAllInOne contains event and handler for type RepositoryVulnerabilityAlert
+type githubEventRepositoryVulnerabilityAlertAllInOne struct {
+	githubEventRepositoryVulnerabilityAlert
+
+	// Create is `repository_vulnerability_alert` event with `create` action.
+	Create githubEventRepositoryVulnerabilityAlertCreate
+	// Dismiss is `repository_vulnerability_alert` event with `dismiss` action.
+	Dismiss githubEventRepositoryVulnerabilityAlertDismiss
+	// Reopen is `repository_vulnerability_alert` event with `reopen` action.
+	Reopen githubEventRepositoryVulnerabilityAlertReopen
+	// Resolve is `repository_vulnerability_alert` event with `resolve` action.
+	Resolve githubEventRepositoryVulnerabilityAlertResolve
+}
+
+// GitHubRepositoryVulnerabilityAlertContext is the context type for RepositoryVulnerabilityAlert event handler to process
+type GitHubRepositoryVulnerabilityAlertContext = ProbotContext[GitHubClient, github.RepositoryVulnerabilityAlertEvent]
+
+// Handler returns event handler function to process context
+func (githubEventRepositoryVulnerabilityAlertAllInOne) Handler(fn func(ctx GitHubRepositoryVulnerabilityAlertContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.RepositoryVulnerabilityAlertEvent](fn)
+}
+
+// githubEventRepositoryVulnerabilityAlert is the base event type of RepositoryVulnerabilityAlert
+type githubEventRepositoryVulnerabilityAlert struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventRepositoryVulnerabilityAlert) Type() string { return "repository_vulnerability_alert" }
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryVulnerabilityAlert) Action() string { return "" }
+
+// githubEventRepositoryVulnerabilityAlertCreate is the Create action of RepositoryVulnerabilityAlert event
+type githubEventRepositoryVulnerabilityAlertCreate struct {
+	githubEventRepositoryVulnerabilityAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryVulnerabilityAlertCreate) Action() string { return "create" }
+
+// githubEventRepositoryVulnerabilityAlertDismiss is the Dismiss action of RepositoryVulnerabilityAlert event
+type githubEventRepositoryVulnerabilityAlertDismiss struct {
+	githubEventRepositoryVulnerabilityAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryVulnerabilityAlertDismiss) Action() string { return "dismiss" }
+
+// githubEventRepositoryVulnerabilityAlertReopen is the Reopen action of RepositoryVulnerabilityAlert event
+type githubEventRepositoryVulnerabilityAlertReopen struct {
+	githubEventRepositoryVulnerabilityAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryVulnerabilityAlertReopen) Action() string { return "reopen" }
+
+// githubEventRepositoryVulnerabilityAlertResolve is the Resolve action of RepositoryVulnerabilityAlert event
+type githubEventRepositoryVulnerabilityAlertResolve struct {
+	githubEventRepositoryVulnerabilityAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventRepositoryVulnerabilityAlertResolve) Action() string { return "resolve" }
+
+// githubEventSecretScanningAlertAllInOne contains event and handler for type SecretScanningAlert
+type githubEventSecretScanningAlertAllInOne struct {
+	githubEventSecretScanningAlert
+
+	// Created is `secret_scanning_alert` event with `created` action.
+	Created githubEventSecretScanningAlertCreated
+	// Reopened is `secret_scanning_alert` event with `reopened` action.
+	Reopened githubEventSecretScanningAlertReopened
+	// Resolved is `secret_scanning_alert` event with `resolved` action.
+	Resolved githubEventSecretScanningAlertResolved
+	// Revoked is `secret_scanning_alert` event with `revoked` action.
+	Revoked githubEventSecretScanningAlertRevoked
+}
+
+// GitHubSecretScanningAlertContext is the context type for SecretScanningAlert event handler to process
+type GitHubSecretScanningAlertContext = ProbotContext[GitHubClient, github.SecretScanningAlertEvent]
+
+// Handler returns event handler function to process context
+func (githubEventSecretScanningAlertAllInOne) Handler(fn func(ctx GitHubSecretScanningAlertContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.SecretScanningAlertEvent](fn)
+}
+
+// githubEventSecretScanningAlert is the base event type of SecretScanningAlert
+type githubEventSecretScanningAlert struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventSecretScanningAlert) Type() string { return "secret_scanning_alert" }
+
+// Action implement the WebhookEvent interface
+func (githubEventSecretScanningAlert) Action() string { return "" }
+
+// githubEventSecretScanningAlertCreated is the Created action of SecretScanningAlert event
+type githubEventSecretScanningAlertCreated struct {
+	githubEventSecretScanningAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventSecretScanningAlertCreated) Action() string { return "created" }
+
+// githubEventSecretScanningAlertReopened is the Reopened action of SecretScanningAlert event
+type githubEventSecretScanningAlertReopened struct {
+	githubEventSecretScanningAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventSecretScanningAlertReopened) Action() string { return "reopened" }
+
+// githubEventSecretScanningAlertResolved is the Resolved action of SecretScanningAlert event
+type githubEventSecretScanningAlertResolved struct {
+	githubEventSecretScanningAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventSecretScanningAlertResolved) Action() string { return "resolved" }
+
+// githubEventSecretScanningAlertRevoked is the Revoked action of SecretScanningAlert event
+type githubEventSecretScanningAlertRevoked struct {
+	githubEventSecretScanningAlert
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventSecretScanningAlertRevoked) Action() string { return "revoked" }
+
+// githubEventStarAllInOne contains event and handler for type Star
+type githubEventStarAllInOne struct {
+	githubEventStar
+
+	// Created is `star` event with `created` action.
+	Created githubEventStarCreated
+	// Deleted is `star` event with `deleted` action.
+	Deleted githubEventStarDeleted
+}
+
+// GitHubStarContext is the context type for Star event handler to process
+type GitHubStarContext = ProbotContext[GitHubClient, github.StarEvent]
+
+// Handler returns event handler function to process context
+func (githubEventStarAllInOne) Handler(fn func(ctx GitHubStarContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.StarEvent](fn)
+}
+
+// githubEventStar is the base event type of Star
+type githubEventStar struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventStar) Type() string { return "star" }
+
+// Action implement the WebhookEvent interface
+func (githubEventStar) Action() string { return "" }
+
+// githubEventStarCreated is the Created action of Star event
+type githubEventStarCreated struct {
+	githubEventStar
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventStarCreated) Action() string { return "created" }
+
+// githubEventStarDeleted is the Deleted action of Star event
+type githubEventStarDeleted struct {
+	githubEventStar
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventStarDeleted) Action() string { return "deleted" }
+
+// githubEventTeamAddAllInOne contains event and handler for type TeamAdd
+type githubEventTeamAddAllInOne struct {
+	githubEventTeamAdd
+}
+
+// GitHubTeamAddContext is the context type for TeamAdd event handler to process
+type GitHubTeamAddContext = ProbotContext[GitHubClient, github.TeamAddEvent]
+
+// Handler returns event handler function to process context
+func (githubEventTeamAddAllInOne) Handler(fn func(ctx GitHubTeamAddContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.TeamAddEvent](fn)
+}
+
+// githubEventTeamAdd is the base event type of TeamAdd
+type githubEventTeamAdd struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventTeamAdd) Type() string { return "team_add" }
+
+// Action implement the WebhookEvent interface
+func (githubEventTeamAdd) Action() string { return "" }
+
+// githubEventTeamAllInOne contains event and handler for type Team
+type githubEventTeamAllInOne struct {
+	githubEventTeam
+
+	// AddedToRepository is `team` event with `added_to_repository` action.
+	AddedToRepository githubEventTeamAddedToRepository
+	// Created is `team` event with `created` action.
+	Created githubEventTeamCreated
+	// Deleted is `team` event with `deleted` action.
+	Deleted githubEventTeamDeleted
+	// Edited is `team` event with `edited` action.
+	Edited githubEventTeamEdited
+	// RemovedFromRepository is `team` event with `removed_from_repository` action.
+	RemovedFromRepository githubEventTeamRemovedFromRepository
+}
+
+// GitHubTeamContext is the context type for Team event handler to process
+type GitHubTeamContext = ProbotContext[GitHubClient, github.TeamEvent]
+
+// Handler returns event handler function to process context
+func (githubEventTeamAllInOne) Handler(fn func(ctx GitHubTeamContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.TeamEvent](fn)
+}
+
+// githubEventTeam is the base event type of Team
+type githubEventTeam struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventTeam) Type() string { return "team" }
+
+// Action implement the WebhookEvent interface
+func (githubEventTeam) Action() string { return "" }
+
+// githubEventTeamAddedToRepository is the AddedToRepository action of Team event
+type githubEventTeamAddedToRepository struct {
+	githubEventTeam
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventTeamAddedToRepository) Action() string { return "added_to_repository" }
+
+// githubEventTeamCreated is the Created action of Team event
+type githubEventTeamCreated struct {
+	githubEventTeam
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventTeamCreated) Action() string { return "created" }
+
+// githubEventTeamDeleted is the Deleted action of Team event
+type githubEventTeamDeleted struct {
+	githubEventTeam
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventTeamDeleted) Action() string { return "deleted" }
+
+// githubEventTeamEdited is the Edited action of Team event
+type githubEventTeamEdited struct {
+	githubEventTeam
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventTeamEdited) Action() string { return "edited" }
+
+// githubEventTeamRemovedFromRepository is the RemovedFromRepository action of Team event
+type githubEventTeamRemovedFromRepository struct {
+	githubEventTeam
+}
+
+// Action implement the WebhookEvent interface
+func (githubEventTeamRemovedFromRepository) Action() string { return "removed_from_repository" }
+
+// githubEventWatchAllInOne contains event and handler for type Watch
+type githubEventWatchAllInOne struct {
+	githubEventWatch
+}
+
+// GitHubWatchContext is the context type for Watch event handler to process
+type GitHubWatchContext = ProbotContext[GitHubClient, github.WatchEvent]
+
+// Handler returns event handler function to process context
+func (githubEventWatchAllInOne) Handler(fn func(ctx GitHubWatchContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.WatchEvent](fn)
+}
+
+// githubEventWatch is the base event type of Watch
+type githubEventWatch struct{}
+
+// Type implement the WebhookEvent interface
+func (githubEventWatch) Type() string { return "watch" }
+
+// Action implement the WebhookEvent interface
+func (githubEventWatch) Action() string { return "" }
+
 // githubEventStatusAllInOne contains event and handler for type Status
 type githubEventStatusAllInOne struct {
 	githubEventStatus
 }
 
-// StatusContext is the context type for Status event handler to process
-type StatusContext = ProbotContext[GithubClient, github.StatusEvent]
+// GitHubStatusContext is the context type for Status event handler to process
+type GitHubStatusContext = ProbotContext[GitHubClient, github.StatusEvent]
 
 // Handler returns event handler function to process context
-func (githubEventStatusAllInOne) Handler(fn func(ctx StatusContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.StatusEvent](fn)
+func (githubEventStatusAllInOne) Handler(fn func(ctx GitHubStatusContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.StatusEvent](fn)
 }
 
 // githubEventStatus is the base event type of Status
@@ -1818,12 +2810,12 @@ type githubEventWorkflowDispatchAllInOne struct {
 	githubEventWorkflowDispatch
 }
 
-// WorkflowDispatchContext is the context type for WorkflowDispatch event handler to process
-type WorkflowDispatchContext = ProbotContext[GithubClient, github.WorkflowDispatchEvent]
+// GitHubWorkflowDispatchContext is the context type for WorkflowDispatch event handler to process
+type GitHubWorkflowDispatchContext = ProbotContext[GitHubClient, github.WorkflowDispatchEvent]
 
 // Handler returns event handler function to process context
-func (githubEventWorkflowDispatchAllInOne) Handler(fn func(ctx WorkflowDispatchContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.WorkflowDispatchEvent](fn)
+func (githubEventWorkflowDispatchAllInOne) Handler(fn func(ctx GitHubWorkflowDispatchContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.WorkflowDispatchEvent](fn)
 }
 
 // githubEventWorkflowDispatch is the base event type of WorkflowDispatch
@@ -1849,12 +2841,12 @@ type githubEventWorkflowJobAllInOne struct {
 	Waiting githubEventWorkflowJobWaiting
 }
 
-// WorkflowJobContext is the context type for WorkflowJob event handler to process
-type WorkflowJobContext = ProbotContext[GithubClient, github.WorkflowJobEvent]
+// GitHubWorkflowJobContext is the context type for WorkflowJob event handler to process
+type GitHubWorkflowJobContext = ProbotContext[GitHubClient, github.WorkflowJobEvent]
 
 // Handler returns event handler function to process context
-func (githubEventWorkflowJobAllInOne) Handler(fn func(ctx WorkflowJobContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.WorkflowJobEvent](fn)
+func (githubEventWorkflowJobAllInOne) Handler(fn func(ctx GitHubWorkflowJobContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.WorkflowJobEvent](fn)
 }
 
 // githubEventWorkflowJob is the base event type of WorkflowJob
@@ -1910,12 +2902,12 @@ type githubEventWorkflowRunAllInOne struct {
 	Requested githubEventWorkflowRunRequested
 }
 
-// WorkflowRunContext is the context type for WorkflowRun event handler to process
-type WorkflowRunContext = ProbotContext[GithubClient, github.WorkflowRunEvent]
+// GitHubWorkflowRunContext is the context type for WorkflowRun event handler to process
+type GitHubWorkflowRunContext = ProbotContext[GitHubClient, github.WorkflowRunEvent]
 
 // Handler returns event handler function to process context
-func (githubEventWorkflowRunAllInOne) Handler(fn func(ctx WorkflowRunContext)) Handler {
-	return EventHandlerFunc[GithubClient, github.WorkflowRunEvent](fn)
+func (githubEventWorkflowRunAllInOne) Handler(fn func(ctx GitHubWorkflowRunContext)) Handler {
+	return EventHandlerFunc[GitHubClient, github.WorkflowRunEvent](fn)
 }
 
 // githubEventWorkflowRun is the base event type of WorkflowRun

@@ -54,7 +54,7 @@ export default function App() {
 function About() {
   return <div>
     <h1>About</h1>
-    <p>Do you like this project? Give us a start on <a target={"_blank"} href='https://github.com/airconduct/go-probot'>Github</a>!</p>
+    <p>Do you like this project? Give us a start on <a target={"_blank"} href='https://github.com/airconduct/go-probot'>GitHub</a>!</p>
   </div>
 }
 

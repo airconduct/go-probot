@@ -12,13 +12,15 @@ import (
 
 {{ range $event := .Events }}
 func Test{{ $event.Type }}(t *testing.T) {
-	checkEvent(t, probot.Github.{{ $event.Type }}, "{{ toSnake $event.Type }}", "")
-    {{ range $val := .Actions }}checkEvent(t, probot.Github.{{ $event.Type }}.{{ toCamel $val }}, "{{ toSnake $event.Type }}", "{{ $val }}")
-    {{ end }}
-	h := probot.Github.{{ $event.Type }}.Handler(func(ctx probot.{{ $event.Type }}Context) {
+	{{if $event.RawType}}checkEvent(t, probot.GitHub.{{ $event.Type }}, "{{ $event.RawType }}", "")
+    {{ range $val := .Actions }}checkEvent(t, probot.GitHub.{{ $event.Type }}.{{ toCamel $val }}, "{{ $event.RawType }}", "{{ $val }}")
+    {{ end }}{{else}}checkEvent(t, probot.GitHub.{{ $event.Type }}, "{{ toSnake $event.Type }}", "")
+    {{ range $val := .Actions }}checkEvent(t, probot.GitHub.{{ $event.Type }}.{{ toCamel $val }}, "{{ toSnake $event.Type }}", "{{ $val }}")
+    {{ end }}{{end}}
+	h := probot.GitHub.{{ $event.Type }}.Handler(func(ctx probot.GitHub{{ $event.Type }}Context) {
 		fmt.Println(ctx)
 	})
-	h.(probot.EventHandlerFunc[probot.GithubClient, github.{{ $event.Type }}Event])(nil)
+	h.(probot.EventHandlerFunc[probot.GitHubClient, github.{{ $event.Type }}Event])(nil)
 }
 {{ end }}
 

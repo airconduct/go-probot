@@ -16,19 +16,22 @@ Events:
   - completed
   - requested
   - rerequested
-- Type: CodeScanningAlert
-  Actions:
-  - appeared_in_branch
-  - closed_by_user
-  - created
-  - fixed
-  - reopened
-  - reopened_by_user
+# TODO: CodeScanningAlertEvent do not contain Installation
+# - Type: CodeScanningAlert
+#   Actions:
+#   - appeared_in_branch
+#   - closed_by_user
+#   - created
+#   - fixed
+#   - reopened
+#   - reopened_by_user
 - Type: CommitComment
   Actions:
   - created
 - Type: Create
 - Type: Delete
+# TODO: dependabot_alert not support in github sdk for now
+# - Type: DependabotAlert
 - Type: DeployKey
   Actions:
   - created
@@ -54,8 +57,11 @@ Events:
   - unlabeled
   - unlocked
   - unpinned
+# TODO: discussion_comment not support in github sdk for now
+# - Type: DiscussionComment
 - Type: Fork
 - Type: GitHubAppAuthorization
+  RawType: github_app_authorization
 - Type: Gollum
 - Type: InstallationRepositories
   Actions:
@@ -116,6 +122,55 @@ Events:
 - Type: Meta
   Actions:
   - deleted
+- Type: Milestone
+  Actions:
+  - closed
+  - created
+  - deleted
+  - edited
+  - opened
+- Type: OrgBlock
+  Actions:
+  - blocked
+  - unblocked
+- Type: Organization
+  Actions:
+  - deleted
+  - member_added
+  - member_invited
+  - member_removed
+  - renamed
+- Type: Package
+  Actions:
+  - published
+  - updated
+- Type: PageBuild
+- Type: Ping
+- Type: ProjectCard
+  Actions:
+  - converted
+  - created
+  - deleted
+  - edited
+  - moved
+- Type: Project
+  Actions:
+  - closed
+  - created
+  - deleted
+  - edited
+  - reopened
+- Type: ProjectColumn
+  Actions:
+  - created
+  - deleted
+  - edited
+  - moved
+# TODO: projects_v2 not support in github sdk for now
+# - Type: ProjectsV2
+# TODO: projects_v2_item
+# - Type: ProjectsV2Item
+- Type: Public
 - Type: PullRequestReviewComment
   Actions:
   - created
@@ -153,6 +208,68 @@ Events:
   - unlabeled
   - unlocked
 - Type: Push
+# TODO: registry_package
+# - Type: RegistryPackage
+- Type: Release
+  Actions:
+  - created
+  - deleted
+  - edited
+  - prereleased
+  - published
+  - released
+  - unpublished
+- Type: Repository
+  Actions:
+  - archived
+  - created
+  - deleted
+  - edited
+  - privatized
+  - publicized
+  - renamed
+  - transferred
+  - unarchived
+- Type: RepositoryDispatch
+# TODO: RepositoryImport do not contain Installation
+# - Type: RepositoryImport
+- Type: RepositoryVulnerabilityAlert
+  Actions:
+  - create
+  - dismiss
+  - reopen
+  - resolve
+- Type: SecretScanningAlert
+  Actions:
+  - created
+  - reopened
+  - resolved
+  - revoked
+# TODO: secret_scanning_alert_location
+# - Type: AecretScanningAlertLocation
+# TODO: SecurityAdvisory do not contain Installation
+# - Type: SecurityAdvisory
+#   Actions:
+#   - published
+#   - updated
+#   - withdrawn
+# TODO: security_and_analysis
+# - Type: SecurityAndAnalysis
+# TODO: sponsorship
+# - Type: Sponsorship
+- Type: Star
+  Actions:
+  - created
+  - deleted
+- Type: TeamAdd
+- Type: Team
+  Actions:
+  - added_to_repository
+  - created
+  - deleted
+  - edited
+  - removed_from_repository
+- Type: Watch
 - Type: Status
 - Type: WorkflowDispatch
 - Type: WorkflowJob

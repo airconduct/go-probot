@@ -19,7 +19,7 @@ var _ = Describe("Test Probot Example", func() {
 		defer cancel()
 
 		flags := pflag.NewFlagSet("", pflag.PanicOnError)
-		app := probot.NewGithubAPP()
+		app := probot.NewGitHubAPP()
 		app.AddFlags(flags)
 		flags.Parse([]string{
 			"--github.hmac-token-file=testdata/hmac_token",
@@ -30,8 +30,8 @@ var _ = Describe("Test Probot Example", func() {
 			"--path=/hook",
 		})
 
-		app.On(probot.Github.IssueComment.Created, probot.Github.IssueComment.Edited).
-			WithHandler(probot.Github.IssueComment.Handler(func(ctx probot.IssueCommentContext) {
+		app.On(probot.GitHub.IssueComment.Created, probot.GitHub.IssueComment.Edited).
+			WithHandler(probot.GitHub.IssueComment.Handler(func(ctx probot.GitHubIssueCommentContext) {
 				payload := ctx.Payload()
 				ctx.Logger().Info("Get IssueComment event", "payload", payload)
 				owner := *payload.Repo.Owner.Login
@@ -48,8 +48,8 @@ var _ = Describe("Test Probot Example", func() {
 
 		Eventually(func(g Gomega) {
 			g.Expect(mock.Send(
-				app.(mock.AppMock[probot.GithubClient]),
-				probot.Github.IssueComment.Created,
+				app.(mock.AppMock[probot.GitHubClient]),
+				probot.GitHub.IssueComment.Created,
 				github.IssueCommentEvent{
 					Action:       probot.ToPointer("created"),
 					Installation: &github.Installation{ID: probot.ToPointer(int64(installationID))},

@@ -10,12 +10,12 @@ import (
 )
 
 func main() {
-	app := probot.NewGithubAPP()
+	app := probot.NewGitHubAPP()
 	app.AddFlags(pflag.CommandLine)
 	pflag.Parse()
 
 	// Add a handler for events "issue_comment.created"
-	app.On(probot.Github.IssueComment.Created).WithHandler(probot.Github.IssueComment.Handler(func(ctx probot.IssueCommentContext) {
+	app.On(probot.GitHub.IssueComment.Created).WithHandler(probot.GitHub.IssueComment.Handler(func(ctx probot.GitHubIssueCommentContext) {
 		payload := ctx.Payload()
 		ctx.Logger().Info("Get IssueComment event", "payload", payload)
 		owner := payload.Repo.Owner.GetLogin()
@@ -29,18 +29,18 @@ func main() {
 
 	// Add a handler for multiple events
 	app.On(
-		probot.Github.PullRequest.Opened,      // pull_request.opened
-		probot.Github.PullRequest.Edited,      // pull_request.edited
-		probot.Github.PullRequest.Synchronize, // pull_request.synchronize
-		probot.Github.PullRequest.Labeled,     // pull_request.labeled
-		probot.Github.PullRequest.Assigned,    // pull_request.assigned
-	).WithHandler(probot.Github.PullRequest.Handler(func(ctx probot.PullRequestContext) {
+		probot.GitHub.PullRequest.Opened,      // pull_request.opened
+		probot.GitHub.PullRequest.Edited,      // pull_request.edited
+		probot.GitHub.PullRequest.Synchronize, // pull_request.synchronize
+		probot.GitHub.PullRequest.Labeled,     // pull_request.labeled
+		probot.GitHub.PullRequest.Assigned,    // pull_request.assigned
+	).WithHandler(probot.GitHub.PullRequest.Handler(func(ctx probot.GitHubPullRequestContext) {
 		payload := ctx.Payload()
 		ctx.Logger().Info("Do something", "action", payload.GetAction(), "PullRequest labels", payload.PullRequest.Labels)
 	}))
 
 	// Add a handler for event "pull_request_review" with all action type
-	app.On(probot.Github.PullRequestReview).WithHandler(probot.Github.PullRequestReview.Handler(func(ctx probot.PullRequestReviewContext) {
+	app.On(probot.GitHub.PullRequestReview).WithHandler(probot.GitHub.PullRequestReview.Handler(func(ctx probot.GitHubPullRequestReviewContext) {
 		payload := ctx.Payload()
 		ctx.Logger().Info("Do something", "action", payload.GetAction(), "body", payload.Review.GetBody())
 	}))

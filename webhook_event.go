@@ -9,19 +9,21 @@ import (
 
 func genericHandleFunc[GT GitClientType, PT gitEventType](
 	ctx context.Context, logger logr.Logger,
-	event string, rawPayload []byte,
+	event string,
+	gethandlerKeyFunc func(string, *PT) string,
+	getPayloadFunc func(*PT) error,
 	clientGetter func(payload *PT) (*GT, GitGraphQLClient, error),
 	handlers map[string]Handler,
 ) error {
 	payload := new(PT)
-	if err := parseWebHook(event, rawPayload, payload); err != nil {
+	if err := getPayloadFunc(payload); err != nil {
 		return err
 	}
 	client, graphQL, err := clientGetter(payload)
 	if err != nil {
 		return err
 	}
-	handlerKey := getHandlerKey(event, payload)
+	handlerKey := gethandlerKeyFunc(event, payload)
 	var handlerVal EventHandlerFunc[GT, PT]
 	if _, ok := handlers[handlerKey]; ok {
 		handlerVal = handlers[handlerKey].(EventHandlerFunc[GT, PT])

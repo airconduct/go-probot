@@ -25,6 +25,7 @@ type loggerOptions struct {
 }
 
 func (opts *loggerOptions) AddFlags(flags *pflag.FlagSet) {
+	// TODO: Add log flags
 	logconfig := zap.NewDevelopmentConfig()
 	logconfig.Encoding = "console"
 	logconfig.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder

@@ -2,12 +2,11 @@
 
 package probot
 
-import "github.com/google/go-github/v48/github"
+import "github.com/xanzy/go-gitlab"
 
 // {{ $.Prefix }} contains all event and handler types
 type {{ $.Prefix }} struct {
 	{{ range $event := .Events }}// {{ $event.Type }} is webhook event `{{ toSnake $event.Type }}`.
-	// reference: https://docs.github.com/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#{{ toSnake $event.Type }}
 	{{ $event.Type }} {{ $.Prefix }}{{ $event.Type }}AllInOne
 	{{ end }}
 }
@@ -15,29 +14,38 @@ type {{ $.Prefix }} struct {
 {{ range $event := .Events }}
 // {{ $.Prefix }}{{ $event.Type }}AllInOne contains event and handler for type {{ $event.Type }}
 type {{ $.Prefix }}{{ $event.Type }}AllInOne struct {
-	githubEvent{{ $event.Type }}
+	{{ $.Prefix }}{{ $event.Type }}
 
     {{ range $val := .Actions }}// {{ toCamel $val }} is `{{ toSnake $event.Type }}` event with `{{ $val }}` action.
 	{{ toCamel $val }} {{ $.Prefix }}{{ $event.Type }}{{toCamel $val}}
     {{ end }}
 }
-// GitHub{{ $event.Type }}Context is the context type for {{ $event.Type }} event handler to process
-type GitHub{{ $event.Type }}Context = ProbotContext[GitHubClient, github.{{ $event.Type }}Event]
+
+{{if $event.Event }}
+// GitLab{{ $event.Type }}Context is the context type for {{ $event.Type }} event handler to process
+type GitLab{{ $event.Type }}Context = ProbotContext[GitLabClient, gitlab.{{ $event.Event }}]
 
 // Handler returns event handler function to process context
-func ({{ $.Prefix }}{{ $event.Type }}AllInOne) Handler(fn func(ctx GitHub{{ $event.Type }}Context)) Handler {
-	return EventHandlerFunc[GitHubClient, github.{{ $event.Type }}Event](fn)
+func ({{ $.Prefix }}{{ $event.Type }}AllInOne) Handler(fn func(ctx GitLab{{ $event.Type }}Context)) Handler {
+	return EventHandlerFunc[GitLabClient, gitlab.{{ $event.Event }}](fn)
 }
+{{else}}
+// GitLab{{ $event.Type }}Context is the context type for {{ $event.Type }} event handler to process
+type GitLab{{ $event.Type }}Context = ProbotContext[GitLabClient, gitlab.{{ $event.Type }}Event]
+
+// Handler returns event handler function to process context
+func ({{ $.Prefix }}{{ $event.Type }}AllInOne) Handler(fn func(ctx GitLab{{ $event.Type }}Context)) Handler {
+	return EventHandlerFunc[GitLabClient, gitlab.{{ $event.Type }}Event](fn)
+}
+{{end}}
 
 // {{ $.Prefix }}{{ $event.Type }} is the base event type of {{ $event.Type }}
 type {{ $.Prefix }}{{ $event.Type }} struct{}
 
 // Type implement the WebhookEvent interface
-{{if $event.RawType}}func ({{ $.Prefix }}{{ $event.Type }}) Type() string   { return "{{ toSnake $event.RawType }}" }
-{{else}}func ({{ $.Prefix }}{{ $event.Type }}) Type() string   { return "{{ toSnake $event.Type }}" }
-{{end}}
+func ({{ $.Prefix }}{{ $event.Type }}) Type() string   { return "{{ $event.RawType }}" }
 // Action implement the WebhookEvent interface
-func ({{ $.Prefix }}{{ $event.Type }}) Action() string { return "" }
+func ({{ $.Prefix }}{{ $event.Type }}) Action() string { return "{{ $event.Action }}" }
 
 {{ range $val := .Actions }}
 // {{ $.Prefix }}{{ $event.Type }}{{ toCamel $val }} is the {{ toCamel $val }} action of {{ $event.Type }} event
