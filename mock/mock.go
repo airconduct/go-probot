@@ -39,6 +39,7 @@ func Send[GT probot.GitClientType](app AppMock[GT], e probot.WebhookEvent, v int
 	signature := getSignature(body.Bytes(), app.GetSecretToken())
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("X-GitHub-Event", e.Type())
+	req.Header.Add("X-Gitlab-Event", e.Type())
 	req.Header.Add("X-Hub-Signature-256", fmt.Sprintf("sha256=%s", signature))
 
 	resp, err := http.DefaultClient.Do(req)

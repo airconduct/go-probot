@@ -1,0 +1,285 @@
+Prefix: githubEvent
+Events:
+- Type: BranchProtectionRule
+  Actions:
+  - deleted
+  - created
+  - edited
+- Type: CheckRun
+  Actions:
+  - completed
+  - created
+  - requested_action
+  - rerequested
+- Type: CheckSuite
+  Actions:
+  - completed
+  - requested
+  - rerequested
+# TODO: CodeScanningAlertEvent do not contain Installation
+# - Type: CodeScanningAlert
+#   Actions:
+#   - appeared_in_branch
+#   - closed_by_user
+#   - created
+#   - fixed
+#   - reopened
+#   - reopened_by_user
+- Type: CommitComment
+  Actions:
+  - created
+- Type: Create
+- Type: Delete
+# TODO: dependabot_alert not support in github sdk for now
+# - Type: DependabotAlert
+- Type: DeployKey
+  Actions:
+  - created
+  - deleted
+- Type: DeploymentStatus
+  Actions:
+  - created
+- Type: Deployment
+  Actions:
+  - created
+- Type: Discussion
+  Actions:
+  - answered
+  - category_changed
+  - created
+  - deleted
+  - edited
+  - labeled
+  - locked
+  - pinned
+  - transferred
+  - unanswered
+  - unlabeled
+  - unlocked
+  - unpinned
+# TODO: discussion_comment not support in github sdk for now
+# - Type: DiscussionComment
+- Type: Fork
+- Type: GitHubAppAuthorization
+  RawType: github_app_authorization
+- Type: Gollum
+- Type: InstallationRepositories
+  Actions:
+  - added
+  - removed
+- Type: Installation
+  Actions:
+  - created
+  - deleted
+  - new_permissions_accepted
+  - suspend
+  - unsuspend
+- Type: IssueComment
+  Actions:
+  - created
+  - deleted
+  - edited
+- Type: Issues
+  Actions:
+  - assigned
+  - closed
+  - deleted
+  - demilestoned
+  - edited
+  - labeled
+  - locked
+  - milestoned
+  - opened
+  - pinned
+  - reopened
+  - transferred
+  - unassigned
+  - unlabeled
+  - unlocked
+  - unpinned
+- Type: Label
+  Actions:
+  - created
+  - deleted
+  - edited
+- Type: MarketplacePurchase
+  Actions:
+  - cancelled
+  - changed
+  - pending_change
+  - pending_change_cancelled
+  - purchased
+- Type: Member
+  Actions:
+  - added
+  - edited
+  - removed
+- Type: Membership
+  Actions:
+  - added
+  - removed
+- Type: MergeGroup
+- Type: Meta
+  Actions:
+  - deleted
+- Type: Milestone
+  Actions:
+  - closed
+  - created
+  - deleted
+  - edited
+  - opened
+- Type: OrgBlock
+  Actions:
+  - blocked
+  - unblocked
+- Type: Organization
+  Actions:
+  - deleted
+  - member_added
+  - member_invited
+  - member_removed
+  - renamed
+- Type: Package
+  Actions:
+  - published
+  - updated
+- Type: PageBuild
+- Type: Ping
+- Type: ProjectCard
+  Actions:
+  - converted
+  - created
+  - deleted
+  - edited
+  - moved
+- Type: Project
+  Actions:
+  - closed
+  - created
+  - deleted
+  - edited
+  - reopened
+- Type: ProjectColumn
+  Actions:
+  - created
+  - deleted
+  - edited
+  - moved
+# TODO: projects_v2 not support in github sdk for now
+# - Type: ProjectsV2
+# TODO: projects_v2_item
+# - Type: ProjectsV2Item
+- Type: Public
+- Type: PullRequestReviewComment
+  Actions:
+  - created
+  - deleted
+  - edited
+- Type: PullRequestReviewThread
+  Actions:
+  - resolved
+  - unresolved
+- Type: PullRequestReview
+  Actions:
+  - dismissed
+  - edited
+  - submitted
+- Type: PullRequest
+  Actions:
+  - assigned
+  - auto_merge_disabled
+  - auto_merge_enabled
+  - closed
+  - converted_to_draft
+  - demilestoned
+  - dequeued
+  - edited
+  - labeled
+  - locked
+  - milestoned
+  - opened
+  - ready_for_review
+  - reopened
+  - review_request_removed
+  - review_requested
+  - synchronize
+  - unassigned
+  - unlabeled
+  - unlocked
+- Type: Push
+# TODO: registry_package
+# - Type: RegistryPackage
+- Type: Release
+  Actions:
+  - created
+  - deleted
+  - edited
+  - prereleased
+  - published
+  - released
+  - unpublished
+- Type: Repository
+  Actions:
+  - archived
+  - created
+  - deleted
+  - edited
+  - privatized
+  - publicized
+  - renamed
+  - transferred
+  - unarchived
+- Type: RepositoryDispatch
+# TODO: RepositoryImport do not contain Installation
+# - Type: RepositoryImport
+- Type: RepositoryVulnerabilityAlert
+  Actions:
+  - create
+  - dismiss
+  - reopen
+  - resolve
+- Type: SecretScanningAlert
+  Actions:
+  - created
+  - reopened
+  - resolved
+  - revoked
+# TODO: secret_scanning_alert_location
+# - Type: AecretScanningAlertLocation
+# TODO: SecurityAdvisory do not contain Installation
+# - Type: SecurityAdvisory
+#   Actions:
+#   - published
+#   - updated
+#   - withdrawn
+# TODO: security_and_analysis
+# - Type: SecurityAndAnalysis
+# TODO: sponsorship
+# - Type: Sponsorship
+- Type: Star
+  Actions:
+  - created
+  - deleted
+- Type: TeamAdd
+- Type: Team
+  Actions:
+  - added_to_repository
+  - created
+  - deleted
+  - edited
+  - removed_from_repository
+- Type: Watch
+- Type: Status
+- Type: WorkflowDispatch
+- Type: WorkflowJob
+  Actions:
+  - completed
+  - in_progress
+  - queued
+  - waiting
+- Type: WorkflowRun
+  Actions:
+  - completed
+  - in_progress
+  - requested

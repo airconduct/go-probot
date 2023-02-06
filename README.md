@@ -10,12 +10,12 @@
 
 ## Example
 
-Please check the simplest [example](example/main.go).
+Please check the simplest [example](examples/github/main.go).
 
 ## Features
 
-- [x] Support building Github App
-- [ ] Simple dashboard
+- [x] Support building GitHub App
+- [x] Simple dashboard
 - [ ] Support intergration with [Gitlab community edition](https://docs.gitlab.com/ee/install/)
 - [ ] Support intergration with [Gerrit](https://www.gerritcodereview.com/)
 

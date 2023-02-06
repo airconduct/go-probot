@@ -1,0 +1,88 @@
+Prefix: gitlabEvent
+Events:
+- Type: "Push"
+  RawType: "Push Hook"
+- Type: "Tag"
+  RawType: "Tag Push Hook"
+- Type: "Issue"
+  RawType: "Issue Hook"
+  Actions:
+  - open
+  - close
+  - reopen
+  - update
+# Note Hook
+- Type: CommitComment
+  RawType: "Note Hook"
+  Action: Commit
+- Type: MergeComment
+  RawType: "Note Hook"
+  Action: Merge
+- Type: IssueComment
+  RawType: "Note Hook"
+  Action: Issue
+- Type: "SnippetComment"
+  RawType: "Note Hook"
+  Action: Snippet
+
+- Type: "MergeRequest"
+  Event: "MergeEvent"
+  RawType: "Merge Request Hook"
+  Actions:
+  - open
+  - close
+  - reopen
+  - update
+  - approved
+  - unapproved
+  - approval
+  - unapproval
+  - merge
+- Type: "WikiPage"
+  RawType: "Wiki Page Hook"
+- Type: "Pipeline"
+  RawType: "Pipeline Hook"
+- Type: "Job"
+  RawType: "Job Hook"
+- Type: "Deployment"
+  RawType: "Deployment Hook"
+- Type: "Member"
+  RawType: "Member Hook"
+- Type: "SubGroup"
+  RawType: "Subgroup Hook"
+- Type: "Release"
+  RawType: "Release Hook"
+  Actions:
+  - create
+  - update
+# System Hook
+- Type: PushSystem
+  RawType: "System Hook"
+  Action: "Push"
+- Type: TagPushSystem
+  RawType: "System Hook"
+  Action: "TagPush"
+- Type: RepositoryUpdateSystem
+  RawType: "System Hook"
+  Action: "RepositoryUpdate"
+- Type: ProjectSystem
+  RawType: "System Hook"
+  Action: "Project"
+- Type: GroupSystem
+  RawType: "System Hook"
+  Action: "Group"
+- Type: KeySystem
+  RawType: "System Hook"
+  Action: "Key"
+- Type: UserSystem
+  RawType: "System Hook"
+  Action: "User"
+- Type: UserGroupSystem
+  RawType: "System Hook"
+  Action: "UserGroup"
+- Type: UserTeamSystem
+  RawType: "System Hook"
+  Action: UserTeam
+
+- Type: "Build"
+  RawType: "Build Hook"
