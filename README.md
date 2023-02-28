@@ -16,7 +16,7 @@ Please check the simplest [example](examples/github/main.go).
 
 - [x] Support building GitHub App
 - [x] Simple dashboard
-- [ ] Support intergration with [Gitlab community edition](https://docs.gitlab.com/ee/install/)
+- [x] [Experimental] Support intergration with [Gitlab community edition](https://docs.gitlab.com/ee/install/)
 - [ ] Support intergration with [Gerrit](https://www.gerritcodereview.com/)
 
 ## License
