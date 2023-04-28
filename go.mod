@@ -15,7 +15,7 @@ require (
 	github.com/onsi/gomega v1.27.4
 	github.com/shurcooL/githubv4 v0.0.0-20221229060216-a8d4a561cc93
 	github.com/spf13/pflag v1.0.5
-	github.com/xanzy/go-gitlab v0.81.0
+	github.com/xanzy/go-gitlab v0.83.0
 	go.uber.org/zap v1.24.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -52,6 +52,6 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.7.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/protobuf v1.29.0 // indirect
+	google.golang.org/protobuf v1.29.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
