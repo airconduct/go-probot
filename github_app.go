@@ -2,15 +2,18 @@ package probot
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"sync"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
 	"github.com/google/go-github/v48/github"
 	"github.com/shurcooL/githubv4"
 	"github.com/spf13/pflag"
+	"golang.org/x/oauth2"
 
 	"github.com/airconduct/go-probot/web"
 )
@@ -34,6 +37,7 @@ type githubApp struct {
 	graphqlMutex   sync.RWMutex
 
 	appID          int64
+	tokenFile      string
 	privateKeyFile string
 	hmacTokenFile  string
 	baseURL        string
@@ -45,6 +49,7 @@ type githubApp struct {
 	metrics *eventMetrics
 
 	dataMutex  sync.RWMutex
+	token      []byte
 	hmacToken  []byte
 	privateKey []byte
 	loggerOptions
@@ -71,6 +76,7 @@ func (app *githubApp) AddFlags(flags *pflag.FlagSet) {
 	app.loggerOptions.AddFlags(flags)
 
 	flags.Int64Var(&app.appID, "github.appid", 0, "github App id")
+	flags.StringVar(&app.tokenFile, "github.token", "", "github App private-key file")
 	flags.StringVar(&app.privateKeyFile, "github.private-key-file", "", "github App private-key file")
 	flags.StringVar(&app.hmacTokenFile, "github.hmac-token-file", "", "github App hmac token file")
 	flags.StringVar(&app.baseURL, "github.base-url", "https://api.github.com", "github base URL")
@@ -126,11 +132,25 @@ func (app *githubApp) initialize() error {
 	}
 	app.hmacToken = rawToken
 
-	rawPrivateKey, err := os.ReadFile(app.privateKeyFile)
-	if err != nil {
-		return fmt.Errorf("failed to read private key file, %w", err)
+	switch {
+	case app.privateKeyFile != "":
+		if app.appID == 0 {
+			return errors.New("app-id must not be zero when private key file is provided")
+		}
+		rawPrivateKey, err := os.ReadFile(app.privateKeyFile)
+		if err != nil {
+			return fmt.Errorf("failed to read private key file, %w", err)
+		}
+		app.privateKey = rawPrivateKey
+	case app.tokenFile != "":
+		rawToken, err := os.ReadFile(app.tokenFile)
+		if err != nil {
+			return fmt.Errorf("failed to read token file, %w", err)
+		}
+		app.token = rawToken
+	default:
+		return errors.New("neither private key or token is provided")
 	}
-	app.privateKey = rawPrivateKey
 	return nil
 }
 
@@ -200,13 +220,24 @@ func (app *githubApp) getGitHubClient(installID int64) (*github.Client, error) {
 		return cli, nil
 	}
 
-	tr, err := ghinstallation.New(http.DefaultTransport, app.appID, installID, app.privateKey)
-	if err != nil {
-		return nil, err
-	}
-	cli, err = github.NewEnterpriseClient(app.baseURL, app.uploadURL, &http.Client{Transport: tr})
-	if err != nil {
-		return nil, err
+	if installID == 0 {
+		// Not a github app, use oauth2 token
+		var err error
+		ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: strings.TrimSpace(string(app.token))})
+		tc := oauth2.NewClient(context.TODO(), ts)
+		cli, err = github.NewEnterpriseClient(app.baseURL, app.uploadURL, tc)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		tr, err := ghinstallation.New(http.DefaultTransport, app.appID, installID, app.privateKey)
+		if err != nil {
+			return nil, err
+		}
+		cli, err = github.NewEnterpriseClient(app.baseURL, app.uploadURL, &http.Client{Transport: tr})
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	app.cliMutex.Lock()
@@ -223,11 +254,17 @@ func (app *githubApp) getGraphQLClient(installID int64) (GitGraphQLClient, error
 		return cli, nil
 	}
 
-	tr, err := ghinstallation.New(http.DefaultTransport, app.appID, installID, app.privateKey)
-	if err != nil {
-		return nil, err
+	if installID == 0 {
+		ts := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: strings.TrimSpace(string(app.token))})
+		tc := oauth2.NewClient(context.TODO(), ts)
+		cli = githubv4.NewEnterpriseClient(app.graphqlURL, &http.Client{Transport: tc.Transport})
+	} else {
+		tr, err := ghinstallation.New(http.DefaultTransport, app.appID, installID, app.privateKey)
+		if err != nil {
+			return nil, err
+		}
+		cli = githubv4.NewEnterpriseClient(app.graphqlURL, &http.Client{Transport: tr})
 	}
-	cli = githubv4.NewEnterpriseClient(app.graphqlURL, &http.Client{Transport: tr})
 
 	app.graphqlMutex.Lock()
 	app.graphqlClients[installID] = cli
