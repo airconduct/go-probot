@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.6.0
 	github.com/emicklei/go-restful-openapi/v2 v2.9.1
-	github.com/emicklei/go-restful/v3 v3.10.2
+	github.com/emicklei/go-restful/v3 v3.11.0
 	github.com/go-logr/logr v1.2.4
 	github.com/go-logr/zapr v1.2.4
 	github.com/go-openapi/spec v0.20.9
