@@ -34,7 +34,7 @@ func TestGitHubAPP(t *testing.T) {
 	}()
 
 	gomega.Eventually(func(g gomega.Gomega) {
-		g.Expect(mock.Send(
+		g.Expect(mock.Send[probot.GitHubClient](
 			app.(mock.AppMock[probot.GitHubClient]),
 			probot.GitHub.IssueComment.Created,
 			github.IssueCommentEvent{

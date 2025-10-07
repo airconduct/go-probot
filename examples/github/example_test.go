@@ -47,7 +47,7 @@ var _ = Describe("Test Probot Example", func() {
 		}()
 
 		Eventually(func(g Gomega) {
-			g.Expect(mock.Send(
+			g.Expect(mock.Send[probot.GitHubClient](
 				app.(mock.AppMock[probot.GitHubClient]),
 				probot.GitHub.IssueComment.Created,
 				github.IssueCommentEvent{

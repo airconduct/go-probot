@@ -42,7 +42,7 @@ func TestGitLabApp(t *testing.T) {
 		issueCommentEvent.ObjectAttributes.Note = "hello"
 		issueCommentEvent.ObjectAttributes.NoteableType = "Issue"
 		issueCommentEvent.Issue.ID = 3
-		g.Expect(mock.Send(
+		g.Expect(mock.Send[probot.GitHubClient](
 			app.(mock.AppMock[probot.GitHubClient]),
 			probot.GitLab.IssueComment,
 			issueCommentEvent,
