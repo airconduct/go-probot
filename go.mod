@@ -11,7 +11,7 @@ require (
 	github.com/go-openapi/spec v0.22.0
 	github.com/google/go-github/v48 v48.2.0
 	github.com/h2non/gock v1.2.0
-	github.com/onsi/ginkgo/v2 v2.26.0
+	github.com/onsi/ginkgo/v2 v2.27.1
 	github.com/onsi/gomega v1.38.2
 	github.com/shurcooL/githubv4 v0.0.0-20221229060216-a8d4a561cc93
 	github.com/spf13/pflag v1.0.5
