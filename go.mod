@@ -1,6 +1,6 @@
 module github.com/airconduct/go-probot
 
-go 1.25
+go 1.25.0
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.17.0
@@ -17,7 +17,7 @@ require (
 	github.com/spf13/pflag v1.0.10
 	github.com/xanzy/go-gitlab v0.115.0
 	go.uber.org/zap v1.27.1
-	golang.org/x/oauth2 v0.32.0
+	golang.org/x/oauth2 v0.36.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
